@@ -1,0 +1,13 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/src/">
+    <Project Path="src/MusicCatalog.Api/MusicCatalog.Api.csproj" />
+    <Project Path="src/MusicCatalog.Application/MusicCatalog.Application.csproj" />
+    <Project Path="src/MusicCatalog.Domain/MusicCatalog.Domain.csproj" />
+    <Project Path="src/MusicCatalog.Infrastructure/MusicCatalog.Infrastructure.csproj" />
+  </Folder>
+</Solution>
