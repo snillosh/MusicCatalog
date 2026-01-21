@@ -1,1 +1,4 @@
 # MusicCatalog
+
+## Health
+GET /health
