@@ -1,0 +1,6 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <ItemGroup>
+        <ProjectReference Include="..\MusicCatalog.Application\MusicCatalog.Application.csproj"/>
+        <ProjectReference Include="..\MusicCatalog.Domain\MusicCatalog.Domain.csproj"/>
+    </ItemGroup>
+</Project>
