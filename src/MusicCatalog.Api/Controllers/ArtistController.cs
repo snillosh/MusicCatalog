@@ -1,43 +1,53 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using MusicCatalog.Application.Artists;
 using MusicCatalog.Application.Artists.CreateArtist;
-using MusicCatalog.Application.Artists.Dto;
+using MusicCatalog.Application.Artists.DeleteArtist;
+using MusicCatalog.Application.Artists.GetArtistById;
 using MusicCatalog.Application.Artists.ListArtists;
+using MusicCatalog.Application.Artists.UpdateArtist;
 
 namespace MusicCatalog.Api.Controllers;
 
 [ApiController]
 [Route("api/artists")]
-public sealed class ArtistController(ISender sender, IArtistRepository repo) : ControllerBase
+public sealed class ArtistController(ISender sender) : ControllerBase
 {
     [HttpGet]
     public async Task<IActionResult> List(CancellationToken cancellationToken) =>
         Ok(await sender.Send(new ListArtistsQuery(), cancellationToken));
 
     [HttpGet("{id:guid}")]
-    public async Task<ActionResult<ArtistDto>> GetById(Guid id, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetById(Guid id, CancellationToken ct)
     {
-        var artist = await repo.GetByIdAsync(id, cancellationToken);
-        if (artist is null) return NotFound();
-        return Ok(new ArtistDto(artist.Id, artist.Name));
+        var dto = await sender.Send(new GetArtistByIdQuery(id), ct);
+        return dto is null ? NotFound() : Ok(dto);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] CreateArtistRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> Create([FromBody] CreateArtistRequest request, CancellationToken ct)
     {
-        var result = await sender.Send(new CreateArtistCommand(request.Name), cancellationToken);
-
+        var result = await sender.Send(new CreateArtistCommand(request.Name, request.Country), ct);
         if (!result.IsSuccess)
-            return Conflict(new ProblemDetails
-            {
-                Title = result.Error!.Code,
-                Detail = result.Error.Message,
-                Status = StatusCodes.Status409Conflict
-            });
+            return Conflict(new ProblemDetails { Title = result.Error!.Code, Detail = result.Error.Message });
 
         return CreatedAtAction(nameof(GetById), new { id = result.Value!.Id }, result.Value);
     }
 
-    public sealed record CreateArtistRequest(string Name);
+    [HttpPut("{id:guid}")]
+    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateArtistRequest request, CancellationToken ct)
+    {
+        var dto = await sender.Send(new UpdateArtistCommand(id, request.Name, request.Country), ct);
+        return dto is null ? NotFound() : Ok(dto);
+    }
+
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> Delete(Guid id, CancellationToken ct)
+    {
+        var deleted = await sender.Send(new DeleteArtistCommand(id), ct);
+        return deleted ? NoContent() : NotFound();
+    }
+
+    public sealed record CreateArtistRequest(string Name, string? Country);
+
+    public sealed record UpdateArtistRequest(string Name, string? Country);
 }

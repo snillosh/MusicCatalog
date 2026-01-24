@@ -4,4 +4,4 @@ using MusicCatalog.Application.Common.Results;
 
 namespace MusicCatalog.Application.Artists.CreateArtist;
 
-public record CreateArtistCommand(string Name) : IRequest<Result<ArtistDto>>;
+public record CreateArtistCommand(string Name, string? Country) : IRequest<Result<ArtistDto>>;

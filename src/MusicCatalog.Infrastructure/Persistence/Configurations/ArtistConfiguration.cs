@@ -14,6 +14,8 @@ public sealed class ArtistConfiguration : IEntityTypeConfiguration<Artist>
 
         builder.Property(x => x.Name).HasMaxLength(200).IsRequired();
 
+        builder.Property(x => x.Country).HasMaxLength(2).IsUnicode(false).IsRequired(false);
+
         builder.HasIndex(x => x.Name).IsUnique();
     }
 }

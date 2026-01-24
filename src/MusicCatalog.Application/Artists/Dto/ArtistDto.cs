@@ -1,3 +1,3 @@
 namespace MusicCatalog.Application.Artists.Dto;
 
-public sealed record ArtistDto(Guid Id, string Name);
+public sealed record ArtistDto(Guid Id, string Name, string? Country);

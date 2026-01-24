@@ -7,5 +7,6 @@ public sealed class CreateArtistValidator : AbstractValidator<CreateArtistComman
     public CreateArtistValidator()
     {
         RuleFor(x => x.Name).NotEmpty().MaximumLength(200);
+        RuleFor(x => x.Country).Length(2).When(x => x.Country is not null);
     }
 }
