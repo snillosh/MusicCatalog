@@ -45,3 +45,8 @@ artifacts/
 ########################################
 .env
 .env.*
+
+# In case a tool creates Windows-style output directories on Linux
+**/bin\\*/
+**/obj\\*/
+
