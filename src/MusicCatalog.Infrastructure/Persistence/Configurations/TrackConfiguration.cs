@@ -9,7 +9,7 @@ public class TrackConfiguration : IEntityTypeConfiguration<Track>
 {
     public void Configure(EntityTypeBuilder<Track> builder)
     {
-        builder.ToTable(nameof(Track));
+        builder.ToTable(nameof(Track).ToLowerInvariant());
 
         builder.HasKey(x => x.Id);
 

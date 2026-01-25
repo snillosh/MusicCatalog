@@ -9,7 +9,7 @@ public sealed class AlbumConfiguration : IEntityTypeConfiguration<Album>
 {
     public void Configure(EntityTypeBuilder<Album> builder)
     {
-        builder.ToTable(nameof(Album));
+        builder.ToTable(nameof(Album).ToLowerInvariant());
 
         builder.HasKey(x => x.Id);
 
