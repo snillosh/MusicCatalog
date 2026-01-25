@@ -14,7 +14,7 @@ public class CreateArtistHandler(IArtistRepository repository) : IRequestHandler
         if (await repository.ExistsByNameAsync(name, cancellationToken))
             return Result<ArtistDto>.Fail("artists.duplicate", "An artist with the same name already exists.");
 
-        var artist = new Artist(name);
+        var artist = new Artist(name, request.Country);
 
         await repository.AddAsync(artist, cancellationToken);
 

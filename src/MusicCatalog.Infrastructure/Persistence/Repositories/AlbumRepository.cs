@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using MusicCatalog.Application.Albums;
 using MusicCatalog.Application.Albums.Dto;
+using MusicCatalog.Application.Common.Paging;
 using MusicCatalog.Domain.Albums;
 
 namespace MusicCatalog.Infrastructure.Persistence.Repositories;
@@ -30,11 +31,24 @@ public sealed class AlbumRepository(MusicCatalogDbContext db) : IAlbumRepository
     public async Task<IReadOnlyList<Album>> GetAllAsync(CancellationToken ct) =>
         await db.Albums.AsNoTracking().OrderBy(a => a.ArtistId).ThenBy(a => a.Title).ToListAsync(ct);
 
-    public async Task<IReadOnlyList<AlbumListItemDto>> GetAllWithArtistNameAsync(CancellationToken ct) =>
-        await db.Albums
-            .AsNoTracking()
+    public async Task<PagedResult<AlbumListItemDto>> GetAllWithArtistNameAsync(int page, int pageSize,
+        int? releasedAfter,
+        CancellationToken ct)
+    {
+        var query = db.Albums.AsNoTracking();
+
+        if (releasedAfter is not null)
+            query = query.Where(a => a.ReleaseYear != null && a.ReleaseYear >= releasedAfter);
+
+        var totalCount = await query.CountAsync(ct);
+
+        query = query
             .OrderBy(a => a.ArtistId)
             .ThenBy(a => a.Title)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize);
+
+        var items = await query
             .Select(a => new AlbumListItemDto(
                 a.Id,
                 a.ArtistId,
@@ -42,4 +56,7 @@ public sealed class AlbumRepository(MusicCatalogDbContext db) : IAlbumRepository
                 a.Title,
                 a.ReleaseYear))
             .ToListAsync(ct);
+
+        return new PagedResult<AlbumListItemDto>(items, page, pageSize, totalCount);
+    }
 }
