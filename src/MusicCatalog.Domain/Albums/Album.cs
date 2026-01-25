@@ -1,4 +1,5 @@
 using MusicCatalog.Domain.Artists;
+using MusicCatalog.Domain.Tracks;
 
 namespace MusicCatalog.Domain.Albums;
 
@@ -21,6 +22,8 @@ public sealed class Album
     public Guid ArtistId { get; private set; }
 
     public Artist Artist { get; private set; } = default!;
+
+    public ICollection<Track> Tracks { get; private set; } = new List<Track>();
 
     public string Title { get; private set; } = default!;
 
