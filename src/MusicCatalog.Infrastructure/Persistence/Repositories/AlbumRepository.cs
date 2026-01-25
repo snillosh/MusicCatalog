@@ -15,6 +15,15 @@ public sealed class AlbumRepository(MusicCatalogDbContext db) : IAlbumRepository
             .ThenBy(a => a.Title)
             .ToListAsync(ct);
 
+    public async Task DeleteAsync(Album album, CancellationToken ct)
+    {
+        db.Albums.Remove(album);
+        await db.SaveChangesAsync(ct);
+    }
+
+    public async Task<Album?> GetByIdAsync(Guid id, CancellationToken ct) =>
+        await db.Albums.AsNoTracking().FirstOrDefaultAsync(a => a.Id == id, ct);
+
     public async Task AddAsync(Album album, CancellationToken ct)
     {
         db.Albums.Add(album);
@@ -58,5 +67,21 @@ public sealed class AlbumRepository(MusicCatalogDbContext db) : IAlbumRepository
             .ToListAsync(ct);
 
         return new PagedResult<AlbumListItemDto>(items, page, pageSize, totalCount);
+    }
+
+    public async Task<Album?> GetByIdTrackedAsync(Guid id, CancellationToken ct) =>
+        await db.Albums.FirstOrDefaultAsync(a => a.Id == id, ct);
+
+    public async Task UpdateAsync(Album album, CancellationToken ct) => await db.SaveChangesAsync(ct);
+
+    public async Task<bool> ExistsByNameAsync(string name, Guid? excludeId, CancellationToken ct)
+    {
+        var query = db.Albums.AsQueryable();
+
+        if (excludeId is not null)
+            query = query.Where(a => a.Id != excludeId.Value);
+
+        var lowered = name.ToLower();
+        return await query.AnyAsync(a => a.Title.ToLower() == lowered, ct);
     }
 }

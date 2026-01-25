@@ -1,0 +1,6 @@
+using MediatR;
+using MusicCatalog.Application.Albums.Dto;
+
+namespace MusicCatalog.Application.Albums.GetAlbumById;
+
+public sealed record GetAlbumByIdQuery(Guid Id) : IRequest<AlbumDto?>;
