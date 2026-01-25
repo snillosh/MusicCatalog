@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using MusicCatalog.Application.Albums;
 using MusicCatalog.Application.Artists;
 using MusicCatalog.Infrastructure.Persistence;
 using MusicCatalog.Infrastructure.Persistence.Repositories;
@@ -17,6 +18,7 @@ public static class DependencyInjection
         services.AddDbContext<MusicCatalogDbContext>(options => { options.UseNpgsql(connectionString); });
 
         services.AddScoped<IArtistRepository, ArtistRepository>();
+        services.AddScoped<IAlbumRepository, AlbumRepository>();
 
         return services;
     }

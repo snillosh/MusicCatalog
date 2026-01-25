@@ -1,3 +1,5 @@
+using MusicCatalog.Domain.Albums;
+
 namespace MusicCatalog.Domain.Artists;
 
 public sealed class Artist
@@ -12,6 +14,8 @@ public sealed class Artist
         Name = name;
         Country = country;
     }
+
+    public ICollection<Album> Albums { get; private set; } = new List<Album>();
 
     public Guid Id { get; private set; }
 

@@ -1,0 +1,6 @@
+using MediatR;
+using MusicCatalog.Application.Albums.Dto;
+
+namespace MusicCatalog.Application.Albums.ListAlbumsByArtist;
+
+public sealed record ListAlbumsByArtistQuery(Guid ArtistId) : IRequest<IReadOnlyList<AlbumDto>>;
