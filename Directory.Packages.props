@@ -13,7 +13,6 @@
         <PackageVersion Include="Swashbuckle.AspNetCore.SwaggerGen" Version="10.0.0"/>
         <PackageVersion Include="Swashbuckle.AspNetCore.SwaggerUI" Version="10.0.0"/>
         <PackageVersion Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.0"/>
-        <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="10.0.2"/>
         <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.0"/>
         <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.0"/>
         <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.0"/>

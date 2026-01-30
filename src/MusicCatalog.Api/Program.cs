@@ -23,7 +23,6 @@ app.UseHttpsRedirection();
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
-app.MapHealthChecks("/health");
 app.MapControllers();
 
 app.Run();
