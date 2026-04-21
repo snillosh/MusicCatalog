@@ -3,6 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MusicCatalog.Application.Albums;
 using MusicCatalog.Application.Artists;
+using MusicCatalog.Application.Genres;
 using MusicCatalog.Application.Tracks;
 using MusicCatalog.Infrastructure.Persistence;
 using MusicCatalog.Infrastructure.Persistence.Repositories;
@@ -21,6 +22,7 @@ public static class DependencyInjection
         services.AddScoped<IArtistRepository, ArtistRepository>();
         services.AddScoped<IAlbumRepository, AlbumRepository>();
         services.AddScoped<ITrackRepository, TrackRepository>();
+        services.AddScoped<IGenreRepository, GenreRepository>();
 
         return services;
     }
