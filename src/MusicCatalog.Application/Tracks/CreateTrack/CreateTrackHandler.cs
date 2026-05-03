@@ -1,7 +1,7 @@
 using MediatR;
 using MusicCatalog.Application.Albums;
 using MusicCatalog.Application.Common.Results;
-using MusicCatalog.Application.Tracks.Dto;
+using MusicCatalog.Contracts.Tracks;
 using MusicCatalog.Domain.Tracks;
 
 namespace MusicCatalog.Application.Tracks.CreateTrack;
@@ -17,7 +17,7 @@ public sealed class CreateTrackHandler(IAlbumRepository albums, ITrackRepository
 
         if (await tracks.ExistsTrackNumberAsync(request.AlbumId, request.TrackNumber, ct))
             return Result<TrackDto>.Fail("tracks.duplicateTrackNumber",
-                "That track number already exists for this album.");
+            "That track number already exists for this album.");
 
         var title = request.Title.Trim();
 
@@ -26,6 +26,6 @@ public sealed class CreateTrackHandler(IAlbumRepository albums, ITrackRepository
         await tracks.AddAsync(track, ct);
 
         return Result<TrackDto>.Success(
-            new TrackDto(track.Id, track.AlbumId, track.TrackNumber, track.Title, track.DurationSeconds));
+        new TrackDto(track.Id, track.AlbumId, track.TrackNumber, track.Title, track.DurationSeconds));
     }
 }

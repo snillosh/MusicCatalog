@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MusicCatalog.Application.Albums.CreateAlbum;
 using MusicCatalog.Application.Albums.ListAlbumsByArtist;
+using MusicCatalog.Contracts.Albums;
 
 namespace MusicCatalog.Api.Controllers;
 
@@ -32,6 +33,4 @@ public sealed class ArtistAlbumsController(ISender sender) : ControllerBase
 
         return StatusCode(StatusCodes.Status201Created, result.Value);
     }
-
-    public sealed record CreateAlbumRequest(string Title, int? ReleaseYear);
 }

@@ -1,7 +1,6 @@
 using MediatR;
-using MusicCatalog.Application.Albums.Dto;
 using MusicCatalog.Application.Common.Results;
-using MusicCatalog.Application.Genres.Dto;
+using MusicCatalog.Contracts.Genres;
 using MusicCatalog.Domain.Genre;
 
 namespace MusicCatalog.Application.Genres.CreateGenre;
@@ -11,7 +10,7 @@ public sealed class CreateGenreHandler(IGenreRepository repo) : IRequestHandler<
     public async Task<Result<GenreDto>> Handle(CreateGenreCommand request, CancellationToken cancellationToken)
     {
         var title = request.Title.Trim();
-        
+
         var genre = new Genre(title);
 
         if (await repo.ExistsWithTitleAsync(title, genre.Id, cancellationToken))

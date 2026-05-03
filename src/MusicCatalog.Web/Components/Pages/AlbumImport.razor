@@ -1,0 +1,177 @@
+@page "/album-import"
+@using MusicCatalog.ExternalMetadata
+@rendermode InteractiveServer
+@inject IMusicMetadataService MusicService
+
+<h3>Add Album</h3>
+
+<div class="container mt-4">
+
+    <div class="card mb-4">
+        <div class="card-body">
+            <label class="form-label">Album name</label>
+
+            <div class="input-group">
+                <input class="form-control"
+                       placeholder="Search for an album..."
+                       @bind="searchTerm"/>
+
+                <button class="btn btn-primary" @onclick="SearchAlbums">
+                    Search
+                </button>
+            </div>
+        </div>
+    </div>
+
+    @if (isLoading)
+    {
+        <div class="alert alert-info">Searching MusicBrainz...</div>
+    }
+
+    @if (searchResults.Any())
+    {
+        <div class="card mb-4">
+            <div class="card-header">
+                Search Results
+            </div>
+
+            <div class="list-group list-group-flush">
+                @foreach (var album in searchResults)
+                {
+                    <button class="list-group-item list-group-item-action"
+                            @onclick="() => SelectAlbum(album)">
+                        <strong>@album.Title</strong><br/>
+                        <span>@album.ArtistName</span><br/>
+                        <small class="text-muted">
+                            @album.ReleaseDate · @album.TrackCount tracks
+                        </small>
+                    </button>
+                }
+            </div>
+        </div>
+    }
+
+    @if (selectedAlbum is not null)
+    {
+        <div class="card mb-4">
+            <div class="card-header">
+                Album Preview
+            </div>
+
+            <div class="card-body">
+                <h5>@selectedAlbum.Title</h5>
+                <p class="mb-1">
+                    <strong>Artist:</strong> @selectedAlbum.ArtistName
+                </p>
+                <p class="mb-3">
+                    <strong>Release date:</strong> @selectedAlbum.ReleaseDate
+                </p>
+
+                <h6>Tracks</h6>
+
+                <ol>
+                    @foreach (var track in selectedAlbum.Tracks)
+                    {
+                        <li>@track.Title</li>
+                    }
+                </ol>
+
+                <button class="btn btn-success" @onclick="AddAlbum">
+                    Add to Catalogue
+                </button>
+            </div>
+        </div>
+    }
+
+    @if (!string.IsNullOrWhiteSpace(statusMessage))
+    {
+        <div class="alert alert-secondary">
+            @statusMessage
+        </div>
+    }
+
+</div>
+
+@code {
+    private string searchTerm = string.Empty;
+    private bool isLoading;
+    private string? statusMessage;
+
+    private List<AlbumSearchResult> searchResults = new();
+    private AlbumImportPreview? selectedAlbum;
+
+    private async Task SearchAlbums()
+    {
+        selectedAlbum = null;
+        statusMessage = null;
+        isLoading = true;
+
+        // Later:
+        // searchResults = await AlbumImportService.SearchAlbumsAsync(searchTerm);
+
+        var albumSearchResults = await MusicService.FindReleaseGroupsAsync(searchTerm);
+
+        searchResults = albumSearchResults.Results.Select(x => new AlbumSearchResult { MusicBrainzReleaseId = x.Item.Releases.FirstOrDefault().Id, Title = x.Item.Title, ArtistName = x.Item.ArtistCredit.FirstOrDefault().Name, ReleaseDate = x.Item.FirstReleaseDate?.Year.ToString(), TrackCount = 10 }).ToList();
+
+        isLoading = false;
+    }
+
+    private async Task SelectAlbum(AlbumSearchResult album)
+    {
+        statusMessage = "Loading full album details...";
+
+        var trackList = await MusicService.BrowseReleaseRecordingsAsync(album.MusicBrainzReleaseId);
+
+        var preview = new AlbumImportPreview
+        {
+            MusicBrainzReleaseId = album.MusicBrainzReleaseId,
+            Title = album.Title,
+            ArtistName = album.ArtistName,
+            ReleaseDate = album.ReleaseDate,
+            Tracks = trackList.Results.Select(x => new TrackPreview { Title = x.Title }).ToList()
+        };
+
+        selectedAlbum = preview;
+
+        statusMessage = null;
+    }
+
+    private async Task AddAlbum()
+    {
+        if (selectedAlbum is null)
+            return;
+
+        statusMessage = "Adding album to database...";
+
+        // Later:
+        // await AlbumImportService.ImportAlbumAsync(selectedAlbum);
+
+        await Task.Delay(500);
+
+        statusMessage = $"Added '{selectedAlbum.Title}' to your catalogue.";
+    }
+
+    private class AlbumSearchResult
+    {
+        public Guid MusicBrainzReleaseId { get; set; } = Guid.Empty;
+        public string Title { get; set; } = string.Empty;
+        public string ArtistName { get; set; } = string.Empty;
+        public string ReleaseDate { get; set; } = string.Empty;
+        public int TrackCount { get; set; }
+    }
+
+    private class AlbumImportPreview
+    {
+        public Guid MusicBrainzReleaseId { get; set; } = Guid.Empty;
+        public string Title { get; set; } = string.Empty;
+        public string ArtistName { get; set; } = string.Empty;
+        public string ReleaseDate { get; set; } = string.Empty;
+        public List<TrackPreview> Tracks { get; set; } = new();
+    }
+
+    private class TrackPreview
+    {
+        public string Title { get; set; } = string.Empty;
+    }
+
+}

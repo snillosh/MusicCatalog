@@ -1,5 +1,5 @@
 using MediatR;
-using MusicCatalog.Application.Artists.Dto;
+using MusicCatalog.Contracts.Artists;
 
 namespace MusicCatalog.Application.Artists.GetArtistById;
 
@@ -9,6 +9,6 @@ public sealed class GetArtistByIdHandler(IArtistRepository artistRepository)
     public async Task<ArtistDto?> Handle(GetArtistByIdQuery request, CancellationToken cancellationToken)
     {
         var artist = await artistRepository.GetByIdAsync(request.Id, cancellationToken);
-        return artist is null ? null : new ArtistDto(artist.Id, artist.Name,  artist.Country);
+        return artist is null ? null : new ArtistDto(artist.Id, artist.Name, artist.Country);
     }
 }

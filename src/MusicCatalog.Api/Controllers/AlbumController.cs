@@ -4,6 +4,7 @@ using MusicCatalog.Application.Albums.DeleteAlbum;
 using MusicCatalog.Application.Albums.GetAlbumById;
 using MusicCatalog.Application.Albums.ListAlbums;
 using MusicCatalog.Application.Albums.UpdateAlbum;
+using MusicCatalog.Contracts.Albums;
 
 namespace MusicCatalog.Api.Controllers;
 
@@ -39,6 +40,4 @@ public class AlbumController(ISender sender) : ControllerBase
         var dto = await sender.Send(new UpdateAlbumCommand(id, request.Title, request.ReleaseYear), ct);
         return dto is null ? NotFound() : Ok(dto);
     }
-
-    public sealed record UpdateAlbumRequest(string Title, int? ReleaseYear);
 }

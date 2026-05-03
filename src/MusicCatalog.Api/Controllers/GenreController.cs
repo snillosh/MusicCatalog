@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MusicCatalog.Application.Genres.CreateGenre;
 using MusicCatalog.Application.Genres.GetGenreById;
+using MusicCatalog.Contracts.Genres;
 
 namespace MusicCatalog.Api.Controllers;
 
@@ -26,5 +27,3 @@ public class GenreController(ISender sender) : ControllerBase
         return CreatedAtAction(nameof(GetById), new { id = result.Value!.Id }, result.Value);
     }
 }
-
-public sealed record CreateGenreRequest(string Title);

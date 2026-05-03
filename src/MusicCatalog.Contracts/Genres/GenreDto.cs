@@ -1,3 +1,3 @@
-namespace MusicCatalog.Application.Genres.Dto;
+namespace MusicCatalog.Contracts.Genres;
 
 public sealed record GenreDto(Guid Id, string Title);

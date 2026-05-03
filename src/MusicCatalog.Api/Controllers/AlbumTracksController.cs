@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MusicCatalog.Application.Tracks.CreateTrack;
 using MusicCatalog.Application.Tracks.ListTracksByAlbum;
+using MusicCatalog.Contracts.Tracks;
 
 namespace MusicCatalog.Api.Controllers;
 
@@ -17,8 +18,8 @@ public sealed class AlbumTracksController(ISender sender) : ControllerBase
     public async Task<IActionResult> Create(Guid albumId, [FromBody] CreateTrackRequest request, CancellationToken ct)
     {
         var result = await sender.Send(
-            new CreateTrackCommand(albumId, request.TrackNumber, request.Title, request.DurationSeconds),
-            ct);
+        new CreateTrackCommand(albumId, request.TrackNumber, request.Title, request.DurationSeconds),
+        ct);
 
         if (!result.IsSuccess)
         {
@@ -34,6 +35,4 @@ public sealed class AlbumTracksController(ISender sender) : ControllerBase
 
         return StatusCode(StatusCodes.Status201Created, result.Value);
     }
-
-    public sealed record CreateTrackRequest(int TrackNumber, string Title, int? DurationSeconds);
 }

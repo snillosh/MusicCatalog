@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using MusicCatalog.Application.Albums;
-using MusicCatalog.Application.Albums.Dto;
 using MusicCatalog.Application.Common.Paging;
+using MusicCatalog.Contracts.Albums;
 using MusicCatalog.Domain.Albums;
 
 namespace MusicCatalog.Infrastructure.Persistence.Repositories;
@@ -59,11 +59,11 @@ public sealed class AlbumRepository(MusicCatalogDbContext db) : IAlbumRepository
 
         var items = await query
             .Select(a => new AlbumListItemDto(
-                a.Id,
-                a.ArtistId,
-                a.Artist.Name,
-                a.Title,
-                a.ReleaseYear))
+            a.Id,
+            a.ArtistId,
+            a.Artist.Name,
+            a.Title,
+            a.ReleaseYear))
             .ToListAsync(ct);
 
         return new PagedResult<AlbumListItemDto>(items, page, pageSize, totalCount);

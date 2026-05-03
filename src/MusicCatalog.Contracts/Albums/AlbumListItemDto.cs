@@ -1,3 +1,3 @@
-namespace MusicCatalog.Application.Albums.Dto;
+namespace MusicCatalog.Contracts.Albums;
 
 public sealed record AlbumListItemDto(Guid Id, Guid ArtistId, string ArtistName, string Title, int? ReleaseYear);

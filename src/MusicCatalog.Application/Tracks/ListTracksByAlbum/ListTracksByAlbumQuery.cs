@@ -1,5 +1,5 @@
 using MediatR;
-using MusicCatalog.Application.Tracks.Dto;
+using MusicCatalog.Contracts.Tracks;
 
 namespace MusicCatalog.Application.Tracks.ListTracksByAlbum;
 

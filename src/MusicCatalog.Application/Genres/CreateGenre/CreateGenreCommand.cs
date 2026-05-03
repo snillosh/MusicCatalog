@@ -1,6 +1,6 @@
 using MediatR;
 using MusicCatalog.Application.Common.Results;
-using MusicCatalog.Application.Genres.Dto;
+using MusicCatalog.Contracts.Genres;
 
 namespace MusicCatalog.Application.Genres.CreateGenre;
 

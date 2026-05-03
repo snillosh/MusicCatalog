@@ -1,6 +1,6 @@
 using MediatR;
-using MusicCatalog.Application.Albums.Dto;
 using MusicCatalog.Application.Common.Results;
+using MusicCatalog.Contracts.Albums;
 
 namespace MusicCatalog.Application.Albums.CreateAlbum;
 

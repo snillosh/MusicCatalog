@@ -5,6 +5,7 @@ using MusicCatalog.Application.Artists.DeleteArtist;
 using MusicCatalog.Application.Artists.GetArtistById;
 using MusicCatalog.Application.Artists.ListArtists;
 using MusicCatalog.Application.Artists.UpdateArtist;
+using MusicCatalog.Contracts.Artists;
 
 namespace MusicCatalog.Api.Controllers;
 
@@ -46,8 +47,4 @@ public sealed class ArtistController(ISender sender) : ControllerBase
         var deleted = await sender.Send(new DeleteArtistCommand(id), ct);
         return deleted ? NoContent() : NotFound();
     }
-
-    public sealed record CreateArtistRequest(string Name, string? Country);
-
-    public sealed record UpdateArtistRequest(string Name, string? Country);
 }

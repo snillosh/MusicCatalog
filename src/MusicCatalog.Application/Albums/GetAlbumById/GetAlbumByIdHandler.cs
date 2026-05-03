@@ -1,5 +1,5 @@
 using MediatR;
-using MusicCatalog.Application.Albums.Dto;
+using MusicCatalog.Contracts.Albums;
 
 namespace MusicCatalog.Application.Albums.GetAlbumById;
 
