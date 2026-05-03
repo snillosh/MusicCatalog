@@ -1,4 +1,4 @@
-namespace MusicCatalog.Application.Common.Paging;
+namespace MusicCatalog.Contracts.Common.Paging;
 
 public sealed record PagedResult<T>(
     IReadOnlyList<T> Items,

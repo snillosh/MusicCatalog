@@ -14,8 +14,9 @@ public sealed class MusicBrainzMetadataService : IMusicMetadataService, IDisposa
     public Task<ISearchResults<ISearchResult<IReleaseGroup>>> FindReleaseGroupsAsync(string query) =>
         _query.FindReleaseGroupsAsync(query, simple: true);
 
-    public Task<IRelease> LookupReleaseAsync(Guid releaseId) => _query.LookupReleaseAsync(releaseId);
+    public Task<IRelease> LookupReleaseAsync(Guid releaseId) =>
+        _query.LookupReleaseAsync(releaseId, Include.Media | Include.Recordings);
 
     public Task<IBrowseResults<IRecording>> BrowseReleaseRecordingsAsync(Guid releaseId) =>
-        _query.BrowseReleaseRecordingsAsync(releaseId);
+        _query.BrowseReleaseRecordingsAsync(releaseId, inc: Include.Media);
 }

@@ -1,7 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using MusicCatalog.Application.Albums;
-using MusicCatalog.Application.Common.Paging;
 using MusicCatalog.Contracts.Albums;
+using MusicCatalog.Contracts.Common.Paging;
 using MusicCatalog.Domain.Albums;
 
 namespace MusicCatalog.Infrastructure.Persistence.Repositories;

@@ -1,4 +1,6 @@
+using MusicCatalog.ApiClient;
 using MusicCatalog.ExternalMetadata;
+using MusicCatalog.Importing;
 using MusicCatalog.Web.Components;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +10,12 @@ builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
 builder.Services.AddSingleton<IMusicMetadataService, MusicBrainzMetadataService>();
+
+builder.Services.AddHttpClient<IMusicCatalogApiClient, MusicCatalogApiClient>(c => {
+    c.BaseAddress = new Uri("http://localhost:5138");
+});
+
+builder.Services.AddSingleton<IAlbumImportService, AlbumImportService>();
 
 var app = builder.Build();
 

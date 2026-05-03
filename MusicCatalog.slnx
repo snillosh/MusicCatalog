@@ -13,10 +13,12 @@
   </Folder>
   <Folder Name="/src/">
     <Project Path="src/MusicCatalog.Api/MusicCatalog.Api.csproj" />
+    <Project Path="src/MusicCatalog.ApiClient/MusicCatalog.ApiClient.csproj" />
     <Project Path="src/MusicCatalog.Application/MusicCatalog.Application.csproj" />
     <Project Path="src/MusicCatalog.Contracts/MusicCatalog.Contracts.csproj" />
     <Project Path="src/MusicCatalog.Domain/MusicCatalog.Domain.csproj" />
     <Project Path="src/MusicCatalog.ExternalMetadata/MusicCatalog.ExternalMetadata.csproj" />
+    <Project Path="src/MusicCatalog.Importing/MusicCatalog.Importing.csproj" />
     <Project Path="src/MusicCatalog.Infrastructure/MusicCatalog.Infrastructure.csproj" />
     <Project Path="src/MusicCatalog.Web/MusicCatalog.Web.csproj" />
   </Folder>

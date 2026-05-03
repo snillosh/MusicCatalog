@@ -1,6 +1,6 @@
 using MediatR;
-using MusicCatalog.Application.Common.Paging;
 using MusicCatalog.Contracts.Albums;
+using MusicCatalog.Contracts.Common.Paging;
 
 namespace MusicCatalog.Application.Albums.ListAlbums;
 

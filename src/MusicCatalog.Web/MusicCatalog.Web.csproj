@@ -8,7 +8,9 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\MusicCatalog.ApiClient\MusicCatalog.ApiClient.csproj"/>
         <ProjectReference Include="..\MusicCatalog.ExternalMetadata\MusicCatalog.ExternalMetadata.csproj"/>
+        <ProjectReference Include="..\MusicCatalog.Importing\MusicCatalog.Importing.csproj"/>
     </ItemGroup>
 
 </Project>

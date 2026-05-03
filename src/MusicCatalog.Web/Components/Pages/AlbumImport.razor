@@ -1,7 +1,13 @@
 @page "/album-import"
+@using MusicCatalog.ApiClient
+@using MusicCatalog.Contracts.Albums
+@using MusicCatalog.Contracts.Tracks
 @using MusicCatalog.ExternalMetadata
+@using MusicCatalog.Importing
 @rendermode InteractiveServer
 @inject IMusicMetadataService MusicService
+@inject IMusicCatalogApiClient ApiClient
+@inject IAlbumImportService AlbumImportService
 
 <h3>Add Album</h3>
 
@@ -106,9 +112,6 @@
         statusMessage = null;
         isLoading = true;
 
-        // Later:
-        // searchResults = await AlbumImportService.SearchAlbumsAsync(searchTerm);
-
         var albumSearchResults = await MusicService.FindReleaseGroupsAsync(searchTerm);
 
         searchResults = albumSearchResults.Results.Select(x => new AlbumSearchResult { MusicBrainzReleaseId = x.Item.Releases.FirstOrDefault().Id, Title = x.Item.Title, ArtistName = x.Item.ArtistCredit.FirstOrDefault().Name, ReleaseDate = x.Item.FirstReleaseDate?.Year.ToString(), TrackCount = 10 }).ToList();
@@ -120,7 +123,9 @@
     {
         statusMessage = "Loading full album details...";
 
-        var trackList = await MusicService.BrowseReleaseRecordingsAsync(album.MusicBrainzReleaseId);
+        var albumLookup = MusicService.LookupReleaseAsync(album.MusicBrainzReleaseId);
+
+        var trackList = albumLookup.Result.Media.SelectMany(x => x.Tracks);
 
         var preview = new AlbumImportPreview
         {
@@ -128,7 +133,11 @@
             Title = album.Title,
             ArtistName = album.ArtistName,
             ReleaseDate = album.ReleaseDate,
-            Tracks = trackList.Results.Select(x => new TrackPreview { Title = x.Title }).ToList()
+            Tracks = trackList.Select(x => {
+                var trackNumber = x.Position ?? 0;
+                var duration = x.Length.GetValueOrDefault().Seconds;
+                return new TrackPreview { Title = x.Title, TrackNumber = trackNumber, DurationSeconds = duration };
+            }).ToList()
         };
 
         selectedAlbum = preview;
@@ -143,10 +152,7 @@
 
         statusMessage = "Adding album to database...";
 
-        // Later:
-        // await AlbumImportService.ImportAlbumAsync(selectedAlbum);
-
-        await Task.Delay(500);
+        await AlbumImportService.ImportAlbumAsync(selectedAlbum);
 
         statusMessage = $"Added '{selectedAlbum.Title}' to your catalogue.";
     }
@@ -158,20 +164,6 @@
         public string ArtistName { get; set; } = string.Empty;
         public string ReleaseDate { get; set; } = string.Empty;
         public int TrackCount { get; set; }
-    }
-
-    private class AlbumImportPreview
-    {
-        public Guid MusicBrainzReleaseId { get; set; } = Guid.Empty;
-        public string Title { get; set; } = string.Empty;
-        public string ArtistName { get; set; } = string.Empty;
-        public string ReleaseDate { get; set; } = string.Empty;
-        public List<TrackPreview> Tracks { get; set; } = new();
-    }
-
-    private class TrackPreview
-    {
-        public string Title { get; set; } = string.Empty;
     }
 
 }

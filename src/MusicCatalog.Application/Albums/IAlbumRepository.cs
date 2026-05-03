@@ -1,5 +1,5 @@
-using MusicCatalog.Application.Common.Paging;
 using MusicCatalog.Contracts.Albums;
+using MusicCatalog.Contracts.Common.Paging;
 using MusicCatalog.Domain.Albums;
 
 namespace MusicCatalog.Application.Albums;
