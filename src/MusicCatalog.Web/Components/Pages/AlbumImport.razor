@@ -56,33 +56,36 @@
 
     @if (selectedAlbum is not null)
     {
-        <div class="card mb-4">
-            <div class="card-header">
-                Album Preview
+        <div class="card-body">
+            <div class="d-flex">
+                <img src="@CoverImageUrl"
+                     alt="Album cover"
+                     class="me-3"
+                     style="width:150px; height:auto;"/>
+
+                <div>
+                    <h5>@selectedAlbum.Title</h5>
+                    <p class="mb-1">
+                        <strong>Artist:</strong> @selectedAlbum.ArtistName
+                    </p>
+                    <p class="mb-3">
+                        <strong>Release date:</strong> @selectedAlbum.ReleaseDate
+                    </p>
+                </div>
             </div>
 
-            <div class="card-body">
-                <h5>@selectedAlbum.Title</h5>
-                <p class="mb-1">
-                    <strong>Artist:</strong> @selectedAlbum.ArtistName
-                </p>
-                <p class="mb-3">
-                    <strong>Release date:</strong> @selectedAlbum.ReleaseDate
-                </p>
+            <h6 class="mt-3">Tracks</h6>
 
-                <h6>Tracks</h6>
+            <ol>
+                @foreach (var track in selectedAlbum.Tracks)
+                {
+                    <li>@track.Title</li>
+                }
+            </ol>
 
-                <ol>
-                    @foreach (var track in selectedAlbum.Tracks)
-                    {
-                        <li>@track.Title</li>
-                    }
-                </ol>
-
-                <button class="btn btn-success" @onclick="AddAlbum">
-                    Add to Catalogue
-                </button>
-            </div>
+            <button class="btn btn-success" @onclick="AddAlbum">
+                Add to Catalogue
+            </button>
         </div>
     }
 
@@ -99,6 +102,7 @@
     private string searchTerm = string.Empty;
     private bool isLoading;
     private string? statusMessage;
+    public string? CoverImageUrl { get; set; }
 
     private IReadOnlyList<AlbumSearchResult> searchResults = [];
     private AlbumImportPreview? selectedAlbum;
@@ -106,6 +110,7 @@
     private async Task SearchAlbums()
     {
         selectedAlbum = null;
+        CoverImageUrl = null;
         statusMessage = null;
         isLoading = true;
 
@@ -118,7 +123,8 @@
     {
         statusMessage = "Loading full album details...";
 
-        selectedAlbum = await MusicService.LookupAlbumImportPreviewAsync(album.MusicBrainzReleaseId);
+        selectedAlbum = await MusicService.LookupAlbumImportPreviewAsync(album.ReleaseId);
+        CoverImageUrl = $"https://coverartarchive.org/release/{selectedAlbum.MusicBrainzReleaseId}/front-250";
 
         statusMessage = null;
     }

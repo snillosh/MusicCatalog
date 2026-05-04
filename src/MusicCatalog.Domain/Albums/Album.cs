@@ -5,9 +5,7 @@ namespace MusicCatalog.Domain.Albums;
 
 public sealed class Album
 {
-    private Album()
-    {
-    }
+    private Album() {}
 
     public Album(Guid artistId, string title, int? releaseYear = null)
     {
@@ -24,6 +22,8 @@ public sealed class Album
     public Artist Artist { get; private set; } = default!;
 
     public ICollection<Track> Tracks { get; private set; } = new List<Track>();
+
+    public ICollection<Genre.Genre> Genres { get; private set; } = new List<Genre.Genre>();
 
     public string Title { get; private set; } = default!;
 

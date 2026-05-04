@@ -1,7 +1,8 @@
 namespace MusicCatalog.Contracts.Albums;
 
 public record AlbumSearchResult(
-    Guid MusicBrainzReleaseId,
+    Guid ReleaseGroupId,
+    Guid ReleaseId,
     string Title,
     string ArtistName,
     string ReleaseDate,

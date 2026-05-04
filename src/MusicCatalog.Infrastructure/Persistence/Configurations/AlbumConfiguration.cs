@@ -23,5 +23,10 @@ public sealed class AlbumConfiguration : IEntityTypeConfiguration<Album>
             .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasIndex(x => new { x.ArtistId, x.Title }).IsUnique();
+
+        builder
+            .HasMany(a => a.Genres)
+            .WithMany()
+            .UsingEntity("album_genre");
     }
 }
