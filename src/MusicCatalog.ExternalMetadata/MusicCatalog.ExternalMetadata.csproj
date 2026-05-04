@@ -11,4 +11,8 @@
         <PackageReference Include="MetaBrainz.MusicBrainz.CoverArt"/>
     </ItemGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="..\MusicCatalog.Contracts\MusicCatalog.Contracts.csproj"/>
+    </ItemGroup>
+
 </Project>

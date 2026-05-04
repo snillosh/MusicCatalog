@@ -1,14 +1,14 @@
 using MetaBrainz.MusicBrainz.Interfaces.Browses;
 using MetaBrainz.MusicBrainz.Interfaces.Entities;
-using MetaBrainz.MusicBrainz.Interfaces.Searches;
+using MusicCatalog.Contracts.Albums;
 
 namespace MusicCatalog.ExternalMetadata;
 
 public interface IMusicMetadataService
 {
-    public Task<ISearchResults<ISearchResult<IReleaseGroup>>> FindReleaseGroupsAsync(string query);
+    public Task<IReadOnlyList<AlbumSearchResult>> FindSimpleAlbumsAsync(string query);
 
-    public Task<IRelease> LookupReleaseAsync(Guid releaseId);
+    public Task<AlbumImportPreview> LookupAlbumImportPreviewAsync(Guid releaseId);
 
     public Task<IBrowseResults<IRecording>> BrowseReleaseRecordingsAsync(Guid releaseId);
 }

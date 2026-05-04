@@ -1,10 +1,8 @@
-using MusicCatalog.Contracts.Tracks;
-
 namespace MusicCatalog.Contracts.Albums;
 
-public record AlbumImportPreview(
+public record AlbumSearchResult(
     Guid MusicBrainzReleaseId,
     string Title,
     string ArtistName,
     string ReleaseDate,
-    List<TrackPreview> Tracks);
+    int TrackCount);
