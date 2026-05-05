@@ -5,19 +5,22 @@ using MusicCatalog.Contracts.Tracks;
 
 namespace MusicCatalog.Importing;
 
-public sealed class AlbumImportService(IMusicCatalogApiClient apiClient) : IAlbumImportService
+public sealed class AlbumImportService(
+    IAlbumApiClient albumApiClient,
+    IArtistApiClient artistApiClient,
+    ITrackApiClient trackApiClient) : IAlbumImportService
 {
 
     public async Task ImportAlbumAsync(
         AlbumImportPreview selectedAlbum,
         CancellationToken cancellationToken = default)
     {
-        var artists = await apiClient.GetArtistsAsync(cancellationToken);
+        var artists = await artistApiClient.GetArtistsAsync(cancellationToken);
 
-        var artist = artists.FirstOrDefault(x =>
+        var artist = artists.Items.FirstOrDefault(x =>
             string.Equals(x.Name, selectedAlbum.ArtistName, StringComparison.OrdinalIgnoreCase));
 
-        artist ??= await apiClient.CreateArtistAsync(
+        artist ??= await artistApiClient.CreateArtistAsync(
         new CreateArtistRequest(selectedAlbum.ArtistName, "WW"),
         cancellationToken);
 
@@ -25,14 +28,14 @@ public sealed class AlbumImportService(IMusicCatalogApiClient apiClient) : IAlbu
             ? year
             : (int?)null;
 
-        var album = await apiClient.CreateAlbumAsync(
+        var album = await albumApiClient.CreateAlbumAsync(
         artist.Id,
         new CreateAlbumRequest(selectedAlbum.Title, releaseYear),
         cancellationToken);
 
         foreach (var track in selectedAlbum.Tracks)
         {
-            await apiClient.CreateTrackAsync(
+            await trackApiClient.CreateTrackAsync(
             album.Id,
             new CreateTrackRequest(
             track.TrackNumber,

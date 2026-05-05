@@ -18,23 +18,25 @@ public static class DependencyInjection
 
         public IServiceCollection AddApiClients(IConfiguration config)
         {
-            services.AddHttpClient<IMusicCatalogApiClient, MusicCatalogApiClient>(c =>
-            {
-                c.BaseAddress = new Uri(config["MusicCatalogApi:BaseUrl"]!);
-            });
+            services.AddHttpClient("MusicCatalogApi",
+            c => { c.BaseAddress = new Uri(config["MusicCatalogApi:BaseUrl"]!); });
+
+            services.AddScoped<IAlbumApiClient, AlbumApiClient>();
+            services.AddScoped<IArtistApiClient, ArtistApiClient>();
+            services.AddScoped<ITrackApiClient, TrackApiClient>();
 
             return services;
         }
 
         public IServiceCollection AddApplicationServices()
         {
-            services.AddSingleton<IAlbumImportService, AlbumImportService>();
+            services.AddScoped<IAlbumImportService, AlbumImportService>();
             return services;
         }
 
         public IServiceCollection AddExternalServices()
         {
-            services.AddSingleton<IMusicMetadataService, MusicBrainzMetadataService>();
+            services.AddScoped<IMusicMetadataService, MusicBrainzMetadataService>();
             return services;
         }
     }
