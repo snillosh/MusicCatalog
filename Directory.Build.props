@@ -1,5 +1,12 @@
 <Project>
     <PropertyGroup>
+        <IsTestProject Condition="$(MSBuildProjectName.EndsWith('.Tests'))">true</IsTestProject>
+    </PropertyGroup>
+
+    <Import Project="Directory.Tests.props"
+          Condition="'$(IsTestProject)' == 'true'" />
+
+    <PropertyGroup>
         <TargetFramework>net10.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
