@@ -11,14 +11,14 @@ namespace MusicCatalog.Api.Controllers;
 public class GenreController(ISender sender) : ControllerBase
 {
     [HttpGet("{id:guid}")]
-    public async Task<IActionResult> GetById(Guid id, CancellationToken ct)
+    public async Task<ActionResult<GenreDto?>> GetById(Guid id, CancellationToken ct)
     {
         var dto = await sender.Send(new GetGenreByIdQuery(id), ct);
         return dto is null ? NotFound() : Ok(dto);
     }
     
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] CreateGenreRequest request, CancellationToken ct)
+    public async Task<ActionResult<GenreDto?>> Create([FromBody] CreateGenreRequest request, CancellationToken ct)
     {
         var result = await sender.Send(new CreateGenreCommand(request.Title), ct);
         if (!result.IsSuccess)

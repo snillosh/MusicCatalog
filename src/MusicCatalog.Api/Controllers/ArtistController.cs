@@ -14,18 +14,18 @@ namespace MusicCatalog.Api.Controllers;
 public sealed class ArtistController(ISender sender) : ControllerBase
 {
     [HttpGet]
-    public async Task<IActionResult> List(CancellationToken cancellationToken) =>
+    public async Task<ActionResult<IReadOnlyList<ArtistDto>>> List(CancellationToken cancellationToken) =>
         Ok(await sender.Send(new ListArtistsQuery(), cancellationToken));
 
     [HttpGet("{id:guid}")]
-    public async Task<IActionResult> GetById(Guid id, CancellationToken ct)
+    public async Task<ActionResult<ArtistDto?>> GetById(Guid id, CancellationToken ct)
     {
         var dto = await sender.Send(new GetArtistByIdQuery(id), ct);
         return dto is null ? NotFound() : Ok(dto);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] CreateArtistRequest request, CancellationToken ct)
+    public async Task<ActionResult<ArtistDto>> Create([FromBody] CreateArtistRequest request, CancellationToken ct)
     {
         var result = await sender.Send(new CreateArtistCommand(request.Name, request.Country), ct);
         if (!result.IsSuccess)
@@ -35,14 +35,14 @@ public sealed class ArtistController(ISender sender) : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
-    public async Task<IActionResult> Update(Guid id, [FromBody] UpdateArtistRequest request, CancellationToken ct)
+    public async Task<ActionResult<ArtistDto>> Update(Guid id, [FromBody] UpdateArtistRequest request, CancellationToken ct)
     {
         var dto = await sender.Send(new UpdateArtistCommand(id, request.Name, request.Country), ct);
         return dto is null ? NotFound() : Ok(dto);
     }
 
     [HttpDelete("{id:guid}")]
-    public async Task<IActionResult> Delete(Guid id, CancellationToken ct)
+    public async Task<ActionResult<bool>> Delete(Guid id, CancellationToken ct)
     {
         var deleted = await sender.Send(new DeleteArtistCommand(id), ct);
         return deleted ? NoContent() : NotFound();
