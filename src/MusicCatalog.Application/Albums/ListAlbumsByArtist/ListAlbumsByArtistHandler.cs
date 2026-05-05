@@ -1,15 +1,11 @@
 using MediatR;
 using MusicCatalog.Contracts.Albums;
+using MusicCatalog.Contracts.Common.Paging;
 
 namespace MusicCatalog.Application.Albums.ListAlbumsByArtist;
 
 public sealed class ListAlbumsByArtistHandler(IAlbumRepository albums)
-    : IRequestHandler<ListAlbumsByArtistQuery, IReadOnlyList<AlbumDto>>
+    : IRequestHandler<ListAlbumsByArtistQuery, PagedResult<AlbumListItemDto>>
 {
-    public async Task<IReadOnlyList<AlbumDto>> Handle(ListAlbumsByArtistQuery request, CancellationToken ct)
-    {
-        var retrievedAlbums = await albums.GetByArtistIdAsync(request.ArtistId, ct);
-
-        return retrievedAlbums.Select(a => new AlbumDto(a.Id, a.ArtistId, a.Title, a.ReleaseYear)).ToList();
-    }
+    public async Task<PagedResult<AlbumListItemDto>> Handle(ListAlbumsByArtistQuery request, CancellationToken ct) => await albums.GetByArtistIdAsync(request.ArtistId, request.Page, request.PageSize, ct);
 }

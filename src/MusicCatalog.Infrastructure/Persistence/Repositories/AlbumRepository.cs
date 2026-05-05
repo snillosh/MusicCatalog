@@ -8,12 +8,31 @@ namespace MusicCatalog.Infrastructure.Persistence.Repositories;
 
 public sealed class AlbumRepository(MusicCatalogDbContext db) : IAlbumRepository
 {
-    public async Task<IReadOnlyList<Album>> GetByArtistIdAsync(Guid artistId, CancellationToken ct)
-        => await db.Albums.AsNoTracking()
-            .Where(a => a.ArtistId == artistId)
-            .OrderBy(a => a.ReleaseYear)
+    public async Task<PagedResult<AlbumListItemDto>> GetByArtistIdAsync(Guid artistId, int page, int pageSize, CancellationToken ct)
+    {
+        var query = db.Albums.AsNoTracking();
+        
+        query = query.Where(a => a.ArtistId == artistId);
+        
+        var totalCount = await query.CountAsync(ct);
+        
+        query = query
+            .OrderBy(a => a.ArtistId)
             .ThenBy(a => a.Title)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize);
+        
+        var items = await query
+            .Select(a => new AlbumListItemDto(
+                a.Id,
+                a.ArtistId,
+                a.Artist.Name,
+                a.Title,
+                a.ReleaseYear))
             .ToListAsync(ct);
+
+        return new PagedResult<AlbumListItemDto>(items, page, pageSize, totalCount);
+    }
 
     public async Task DeleteAsync(Album album, CancellationToken ct)
     {

@@ -1,10 +1,12 @@
+using MusicCatalog.Contracts.Artists;
+using MusicCatalog.Contracts.Common.Paging;
 using MusicCatalog.Domain.Artists;
 
 namespace MusicCatalog.Application.Artists;
 
 public interface IArtistRepository
 {
-    Task<IReadOnlyList<Artist>> GetAllAsync(CancellationToken ct);
+    Task<PagedResult<ArtistDto>> GetAllAsync(int page, int pageSize, CancellationToken ct);
     Task<Artist?> GetByIdAsync(Guid id, CancellationToken ct);
     Task<Artist?> GetByIdTrackedAsync(Guid id, CancellationToken ct);
     Task AddAsync(Artist artist, CancellationToken ct);

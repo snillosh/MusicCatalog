@@ -1,13 +1,34 @@
 using Microsoft.EntityFrameworkCore;
 using MusicCatalog.Application.Artists;
+using MusicCatalog.Contracts.Albums;
+using MusicCatalog.Contracts.Artists;
+using MusicCatalog.Contracts.Common.Paging;
 using MusicCatalog.Domain.Artists;
 
 namespace MusicCatalog.Infrastructure.Persistence.Repositories;
 
 public class ArtistRepository(MusicCatalogDbContext db) : IArtistRepository
 {
-    public async Task<IReadOnlyList<Artist>> GetAllAsync(CancellationToken ct) =>
-        await db.Artists.AsNoTracking().OrderBy(a => a.Name).ToListAsync(ct);
+    public async Task<PagedResult<ArtistDto>> GetAllAsync(int page, int pageSize, CancellationToken ct)
+    {
+        var query = db.Artists.AsNoTracking();
+        
+        var totalCount = await query.CountAsync(ct);
+        
+        query = query
+            .OrderBy(a => a.Name)
+            .ThenBy(a => a.Id)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize);
+
+        var items = await query
+            .Select(a => new ArtistDto(
+                a.Id,
+                a.Name, a.Country))
+            .ToListAsync(ct);
+        
+        return new PagedResult<ArtistDto>(items, page, pageSize, totalCount);
+    }
 
     public async Task<Artist?> GetByIdAsync(Guid id, CancellationToken ct) =>
         await db.Artists.AsNoTracking().FirstOrDefaultAsync(a => a.Id == id, ct);
