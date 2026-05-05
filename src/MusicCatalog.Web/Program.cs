@@ -1,29 +1,22 @@
 using MusicCatalog.ApiClient;
 using MusicCatalog.ExternalMetadata;
 using MusicCatalog.Importing;
+using MusicCatalog.Web;
 using MusicCatalog.Web.Components;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents();
-
-builder.Services.AddSingleton<IMusicMetadataService, MusicBrainzMetadataService>();
-
-builder.Services.AddHttpClient<IMusicCatalogApiClient, MusicCatalogApiClient>(c => {
-    c.BaseAddress = new Uri("http://localhost:5138");
-});
-
-builder.Services.AddSingleton<IAlbumImportService, AlbumImportService>();
+builder.Services
+    .AddWeb()
+    .AddApiClients(builder.Configuration)
+    .AddApplicationServices()
+    .AddExternalServices();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error", true);
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
