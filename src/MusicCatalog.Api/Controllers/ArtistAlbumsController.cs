@@ -11,11 +11,11 @@ namespace MusicCatalog.Api.Controllers;
 public sealed class ArtistAlbumsController(ISender sender) : ControllerBase
 {
     [HttpGet]
-    public async Task<IActionResult> List(Guid artistId, CancellationToken ct)
+    public async Task<ActionResult<IReadOnlyList<AlbumDto>>> List(Guid artistId, CancellationToken ct)
         => Ok(await sender.Send(new ListAlbumsByArtistQuery(artistId), ct));
 
     [HttpPost]
-    public async Task<IActionResult> Create(Guid artistId, [FromBody] CreateAlbumRequest request, CancellationToken ct)
+    public async Task<ActionResult<AlbumDto>> Create(Guid artistId, [FromBody] CreateAlbumRequest request, CancellationToken ct)
     {
         var result = await sender.Send(new CreateAlbumCommand(artistId, request.Title, request.ReleaseYear), ct);
 
