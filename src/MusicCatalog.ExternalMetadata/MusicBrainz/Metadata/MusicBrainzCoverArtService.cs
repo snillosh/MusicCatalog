@@ -1,6 +1,6 @@
 using MetaBrainz.MusicBrainz.CoverArt;
 
-namespace MusicCatalog.ExternalMetadata;
+namespace MusicCatalog.ExternalMetadata.MusicBrainz.Metadata;
 
 public sealed class MusicBrainzCoverArtService : ICoverArtService, IDisposable
 {
