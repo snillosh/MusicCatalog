@@ -6,6 +6,7 @@ using MusicCatalog.Application.Artists.GetArtistById;
 using MusicCatalog.Application.Artists.ListArtists;
 using MusicCatalog.Application.Artists.UpdateArtist;
 using MusicCatalog.Contracts.Artists;
+using MusicCatalog.Contracts.Common.Paging;
 
 namespace MusicCatalog.Api.Controllers;
 
@@ -14,7 +15,10 @@ namespace MusicCatalog.Api.Controllers;
 public sealed class ArtistController(ISender sender) : ControllerBase
 {
     [HttpGet]
-    public async Task<ActionResult<IReadOnlyList<ArtistDto>>> List(CancellationToken cancellationToken) =>
+    public async Task<ActionResult<PagedResult<ArtistDto>>> List(
+        [FromQuery] int page = 1,
+        [FromQuery] int pageSize = 50,
+        CancellationToken cancellationToken= default) =>
         Ok(await sender.Send(new ListArtistsQuery(), cancellationToken));
 
     [HttpGet("{id:guid}")]

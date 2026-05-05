@@ -12,7 +12,7 @@ namespace MusicCatalog.Api.Controllers;
 public sealed class AlbumTracksController(ISender sender) : ControllerBase
 {
     [HttpGet]
-    public async Task<ActionResult<IReadOnlyList<TrackDto>>> List(Guid albumId, CancellationToken ct)
+    public async Task<ActionResult<IReadOnlyList<TrackDto>>> GetAllTracksByAlbumId(Guid albumId, CancellationToken ct)
         => Ok(await sender.Send(new ListTracksByAlbumQuery(albumId), ct));
 
     [HttpPost]

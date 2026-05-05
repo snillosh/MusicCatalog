@@ -6,7 +6,7 @@ namespace MusicCatalog.Application.Albums;
 
 public interface IAlbumRepository
 {
-    Task<IReadOnlyList<Album>> GetByArtistIdAsync(Guid artistId, CancellationToken ct);
+    Task<PagedResult<AlbumListItemDto>> GetByArtistIdAsync(Guid artistId, int page, int pageSize, CancellationToken ct);
     Task<Album?> GetByIdAsync(Guid id, CancellationToken ct);
     Task<Album?> GetByIdTrackedAsync(Guid id, CancellationToken ct);
     Task AddAsync(Album album, CancellationToken ct);
