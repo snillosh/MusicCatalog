@@ -1,9 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
-
     <PropertyGroup>
-        <TargetFramework>net10.0</TargetFramework>
-        <Nullable>enable</Nullable>
-        <ImplicitUsings>enable</ImplicitUsings>
         <BlazorDisableThrowNavigationException>true</BlazorDisableThrowNavigationException>
     </PropertyGroup>
 
@@ -12,5 +8,4 @@
         <ProjectReference Include="..\MusicCatalog.ExternalMetadata\MusicCatalog.ExternalMetadata.csproj"/>
         <ProjectReference Include="..\MusicCatalog.Importing\MusicCatalog.Importing.csproj"/>
     </ItemGroup>
-
 </Project>

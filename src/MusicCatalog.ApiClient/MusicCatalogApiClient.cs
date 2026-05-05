@@ -1,5 +1,4 @@
 using System.Net.Http.Json;
-using Microsoft.AspNetCore.Mvc;
 using MusicCatalog.Contracts.Albums;
 using MusicCatalog.Contracts.Artists;
 using MusicCatalog.Contracts.Common.Paging;
@@ -37,7 +36,7 @@ public sealed class MusicCatalogApiClient(HttpClient httpClient) : IMusicCatalog
 
         if (!response.IsSuccessStatusCode)
         {
-            var problem = await response.Content.ReadFromJsonAsync<ProblemDetails>(
+            var problem = await response.Content.ReadFromJsonAsync<ApiProblemDetails>(
             ct);
 
             throw new HttpRequestException(
@@ -60,7 +59,7 @@ public sealed class MusicCatalogApiClient(HttpClient httpClient) : IMusicCatalog
 
         if (!response.IsSuccessStatusCode)
         {
-            var problem = await response.Content.ReadFromJsonAsync<ProblemDetails>(
+            var problem = await response.Content.ReadFromJsonAsync<ApiProblemDetails>(
             ct);
 
             throw new HttpRequestException(
@@ -91,7 +90,7 @@ public sealed class MusicCatalogApiClient(HttpClient httpClient) : IMusicCatalog
 
         if (!response.IsSuccessStatusCode)
         {
-            var problem = await response.Content.ReadFromJsonAsync<ProblemDetails>(
+            var problem = await response.Content.ReadFromJsonAsync<ApiProblemDetails>(
             ct);
 
             throw new HttpRequestException(
