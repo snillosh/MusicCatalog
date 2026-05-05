@@ -1,5 +1,6 @@
 using MusicCatalog.ApiClient;
 using MusicCatalog.ExternalMetadata;
+using MusicCatalog.ExternalMetadata.MusicBrainz.Metadata;
 using MusicCatalog.Importing;
 
 namespace MusicCatalog.Web;
