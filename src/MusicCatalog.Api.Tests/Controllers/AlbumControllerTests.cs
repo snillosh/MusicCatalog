@@ -16,13 +16,11 @@ namespace MusicCatalog.Api.Tests.Controllers;
 [TestFixture]
 public class AlbumControllerTests
 {
-    private ISender _sender = null!;
-    private AlbumController _controller = null!;
+    private readonly ISender _sender = Substitute.For<ISender>();
+    private readonly AlbumController _controller;
 
-    [SetUp]
-    public void Setup()
+    public AlbumControllerTests()
     {
-        _sender = Substitute.For<ISender>();
         _controller = new AlbumController(_sender);
     }
 
@@ -30,25 +28,23 @@ public class AlbumControllerTests
     public async Task List_ReturnsOk_WithPagedAlbums()
     {
         var albums = new PagedResult<AlbumListItemDto>(
-            [
-                new AlbumListItemDto(
-                    Guid.NewGuid(),
-                    Guid.NewGuid(),
-                    "Radiohead",
-                    "OK Computer",
-                    1997)
-            ],
-            Page: 1,
-            PageSize: 50,
-            TotalCount: 1);
+        [
+            new AlbumListItemDto(
+            Guid.NewGuid(),
+            Guid.NewGuid(),
+            "Grimes",
+            "Art Angels",
+            2015)
+        ],
+        1,
+        50,
+        1);
 
         _sender
             .Send(
-                Arg.Is<ListAlbumsQuery>(q =>
-                    q.Page == 1 &&
-                    q.PageSize == 50 &&
-                    q.ReleasedAfter == 1990),
-                Arg.Any<CancellationToken>())
+            Arg.Is<ListAlbumsQuery>(q =>
+                q.Page == 1 && q.PageSize == 50 && q.ReleasedAfter == 1990),
+            Arg.Any<CancellationToken>())
             .Returns(albums);
 
         var result = await _controller.List(1, 50, 1990, CancellationToken.None);
@@ -63,15 +59,15 @@ public class AlbumControllerTests
         var albumId = Guid.NewGuid();
 
         var album = new AlbumDto(
-            albumId,
-            Guid.NewGuid(),
-            "OK Computer",
-            1997);
+        albumId,
+        Guid.NewGuid(),
+        "Art Angels",
+        2015);
 
         _sender
             .Send(
-                Arg.Is<GetAlbumByIdQuery>(q => q.Id == albumId),
-                Arg.Any<CancellationToken>())
+            Arg.Is<GetAlbumByIdQuery>(q => q.Id == albumId),
+            Arg.Any<CancellationToken>())
             .Returns(album);
 
         var result = await _controller.GetById(albumId, CancellationToken.None);
@@ -87,8 +83,8 @@ public class AlbumControllerTests
 
         _sender
             .Send(
-                Arg.Is<GetAlbumByIdQuery>(q => q.Id == albumId),
-                Arg.Any<CancellationToken>())
+            Arg.Is<GetAlbumByIdQuery>(q => q.Id == albumId),
+            Arg.Any<CancellationToken>())
             .Returns((AlbumDto?)null);
 
         var result = await _controller.GetById(albumId, CancellationToken.None);
@@ -103,8 +99,8 @@ public class AlbumControllerTests
 
         _sender
             .Send(
-                Arg.Is<DeleteAlbumCommand>(c => c.Id == albumId),
-                Arg.Any<CancellationToken>())
+            Arg.Is<DeleteAlbumCommand>(c => c.Id == albumId),
+            Arg.Any<CancellationToken>())
             .Returns(true);
 
         var result = await _controller.Delete(albumId, CancellationToken.None);
@@ -119,8 +115,8 @@ public class AlbumControllerTests
 
         _sender
             .Send(
-                Arg.Is<DeleteAlbumCommand>(c => c.Id == albumId),
-                Arg.Any<CancellationToken>())
+            Arg.Is<DeleteAlbumCommand>(c => c.Id == albumId),
+            Arg.Any<CancellationToken>())
             .Returns(false);
 
         var result = await _controller.Delete(albumId, CancellationToken.None);
@@ -136,18 +132,16 @@ public class AlbumControllerTests
         var request = new UpdateAlbumRequest("Kid A", 2000);
 
         var album = new AlbumDto(
-            albumId,
-            Guid.NewGuid(),
-            "Kid A",
-            2000);
+        albumId,
+        Guid.NewGuid(),
+        "Visions",
+        2012);
 
         _sender
             .Send(
-                Arg.Is<UpdateAlbumCommand>(c =>
-                    c.Id == albumId &&
-                    c.Title == request.Title &&
-                    c.ReleaseYear == request.ReleaseYear),
-                Arg.Any<CancellationToken>())
+            Arg.Is<UpdateAlbumCommand>(c =>
+                c.Id == albumId && c.Title == request.Title && c.ReleaseYear == request.ReleaseYear),
+            Arg.Any<CancellationToken>())
             .Returns(album);
 
         var result = await _controller.Update(albumId, request, CancellationToken.None);
@@ -161,15 +155,13 @@ public class AlbumControllerTests
     {
         var albumId = Guid.NewGuid();
 
-        var request = new UpdateAlbumRequest("Kid A", 2000);
+        var request = new UpdateAlbumRequest("Visions", 2012);
 
         _sender
             .Send(
-                Arg.Is<UpdateAlbumCommand>(c =>
-                    c.Id == albumId &&
-                    c.Title == request.Title &&
-                    c.ReleaseYear == request.ReleaseYear),
-                Arg.Any<CancellationToken>())
+            Arg.Is<UpdateAlbumCommand>(c =>
+                c.Id == albumId && c.Title == request.Title && c.ReleaseYear == request.ReleaseYear),
+            Arg.Any<CancellationToken>())
             .Returns((AlbumDto?)null);
 
         var result = await _controller.Update(albumId, request, CancellationToken.None);
