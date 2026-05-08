@@ -8,12 +8,17 @@ public class UpdateAlbumHandler(IAlbumRepository repository) : IRequestHandler<U
     public async Task<AlbumDto?> Handle(UpdateAlbumCommand request, CancellationToken cancellationToken)
     {
         var album = await repository.GetByIdTrackedAsync(request.Id, cancellationToken);
-        if (album is null) return null;
+        if (album is null)
+        {
+            return null;
+        }
 
         var newTitle = request.Title.Trim();
 
         if (await repository.ExistsByNameAsync(newTitle, request.Id, cancellationToken))
+        {
             throw new InvalidOperationException("albums.duplicate");
+        }
 
         album.Rename(newTitle);
         album.SetReleaseYear(request.ReleaseYear);

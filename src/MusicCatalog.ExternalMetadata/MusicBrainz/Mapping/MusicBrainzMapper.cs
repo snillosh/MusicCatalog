@@ -21,14 +21,16 @@ internal static class MusicBrainzMapper
             .ToList();
     }
 
-    public static AlbumImportPreview ToAlbumImportPreview(this IRelease release)
+    public static AlbumImportPreview ToAlbumImportPreview(
+        this IRelease release)
     {
         var artistName = release.ArtistCredit.FirstOrDefault()?.Name ?? "Unknown Artist";
         var releaseYear = release.Date?.Year.ToString();
 
         var tracks = release.Media
             .SelectMany(x => x.Tracks)
-            .Select(x => {
+            .Select(x =>
+            {
                 var trackNumber = x.Position ?? 0;
                 var duration = x.Length.GetValueOrDefault().Seconds;
 

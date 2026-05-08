@@ -32,7 +32,9 @@ public sealed class Album
     public void Rename(string title)
     {
         if (string.IsNullOrWhiteSpace(title))
+        {
             throw new ArgumentException("Album title cannot be empty.", nameof(title));
+        }
 
         Title = title.Trim();
     }
@@ -46,7 +48,9 @@ public sealed class Album
         }
 
         if (year < 1880 || year > DateTime.UtcNow.Year + 1)
+        {
             throw new ArgumentOutOfRangeException(nameof(year), "Release year is out of range.");
+        }
 
         ReleaseYear = year;
     }

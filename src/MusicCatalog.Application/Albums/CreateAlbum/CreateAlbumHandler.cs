@@ -13,12 +13,16 @@ public sealed class CreateAlbumHandler(IArtistRepository artists, IAlbumReposito
     {
         var artist = await artists.GetByIdAsync(request.ArtistId, ct);
         if (artist is null)
+        {
             return Result<AlbumDto>.Fail("artists.notFound", "Artist not found.");
+        }
 
         var title = request.Title.Trim();
 
         if (await albums.ExistsWithTitleAsync(request.ArtistId, title, ct))
+        {
             return Result<AlbumDto>.Fail("albums.duplicate", "That artist already has an album with that title.");
+        }
 
         var album = new Album(request.ArtistId, title, request.ReleaseYear);
 

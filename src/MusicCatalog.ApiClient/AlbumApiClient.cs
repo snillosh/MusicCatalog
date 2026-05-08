@@ -26,7 +26,9 @@ public class AlbumApiClient(IHttpClientFactory httpClientFactory) : IAlbumApiCli
         return result ?? new PagedResult<AlbumListItemDto>([], 0, 0, 0);
     }
 
-    public async Task<AlbumDto> CreateAlbumAsync(Guid artistId, CreateAlbumRequest request,
+    public async Task<AlbumDto> CreateAlbumAsync(
+        Guid artistId,
+        CreateAlbumRequest request,
         CancellationToken ct = default)
     {
         var response = await _http.PostAsJsonAsync(

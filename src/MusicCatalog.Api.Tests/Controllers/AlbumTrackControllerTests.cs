@@ -33,13 +33,17 @@ public class AlbumTrackControllerTests
             new(Guid.NewGuid(), albumId, 3, "California", 60), new(Guid.NewGuid(), albumId, 4, "Flesh WithoutBlood", 60)
         };
 
-        _sender.Send(Arg.Is<ListTracksByAlbumQuery>(q => q.AlbumId == albumId),
-        Arg.Any<CancellationToken>()).Returns(tracks);
+        _sender.Send(
+            Arg.Is<ListTracksByAlbumQuery>(q => q.AlbumId == albumId),
+            Arg.Any<CancellationToken>())
+            .Returns(tracks);
 
         var result = await _controller.GetAllTracksByAlbumId(albumId, CancellationToken.None);
 
-        result.Result.Should().BeOfType<OkObjectResult>()
-            .Which.Value.Should().BeEquivalentTo(tracks);
+        result.Result.Should()
+            .BeOfType<OkObjectResult>()
+            .Which.Value.Should()
+            .BeEquivalentTo(tracks);
     }
 
     [Test]
@@ -47,8 +51,10 @@ public class AlbumTrackControllerTests
     {
         var albumId = Guid.NewGuid();
 
-        _sender.Send(Arg.Is<ListTracksByAlbumQuery>(q => q.AlbumId == albumId),
-        Arg.Any<CancellationToken>()).Returns([]);
+        _sender.Send(
+            Arg.Is<ListTracksByAlbumQuery>(q => q.AlbumId == albumId),
+            Arg.Any<CancellationToken>())
+            .Returns([]);
 
         var result = await _controller.GetAllTracksByAlbumId(albumId, CancellationToken.None);
 
@@ -87,7 +93,8 @@ public class AlbumTrackControllerTests
             .Send(
             Arg.Any<CreateTrackCommand>(),
             Arg.Any<CancellationToken>())
-            .Returns(Result<TrackDto>.Fail(
+            .Returns(
+            Result<TrackDto>.Fail(
             "albums.notFound",
             "Album not found."));
 
@@ -118,7 +125,8 @@ public class AlbumTrackControllerTests
             .Send(
             Arg.Any<CreateTrackCommand>(),
             Arg.Any<CancellationToken>())
-            .Returns(Result<TrackDto>.Fail(
+            .Returns(
+            Result<TrackDto>.Fail(
             "tracks.duplicateTrackNumber",
             "Duplicate track number."));
 

@@ -49,8 +49,10 @@ public class AlbumControllerTests
 
         var result = await _controller.List(1, 50, 1990, CancellationToken.None);
 
-        result.Result.Should().BeOfType<OkObjectResult>()
-            .Which.Value.Should().BeEquivalentTo(albums);
+        result.Result.Should()
+            .BeOfType<OkObjectResult>()
+            .Which.Value.Should()
+            .BeEquivalentTo(albums);
     }
 
     [Test]
@@ -72,8 +74,10 @@ public class AlbumControllerTests
 
         var result = await _controller.GetById(albumId, CancellationToken.None);
 
-        result.Result.Should().BeOfType<OkObjectResult>()
-            .Which.Value.Should().BeEquivalentTo(album);
+        result.Result.Should()
+            .BeOfType<OkObjectResult>()
+            .Which.Value.Should()
+            .BeEquivalentTo(album);
     }
 
     [Test]
@@ -146,8 +150,10 @@ public class AlbumControllerTests
 
         var result = await _controller.Update(albumId, request, CancellationToken.None);
 
-        result.Result.Should().BeOfType<OkObjectResult>()
-            .Which.Value.Should().BeEquivalentTo(album);
+        result.Result.Should()
+            .BeOfType<OkObjectResult>()
+            .Which.Value.Should()
+            .BeEquivalentTo(album);
     }
 
     [Test]

@@ -1,5 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <ItemGroup>
-    <ProjectReference Include="..\MusicCatalog.Api\MusicCatalog.Api.csproj" />
-  </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\MusicCatalog.Api\MusicCatalog.Api.csproj"/>
+    </ItemGroup>
 </Project>

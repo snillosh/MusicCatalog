@@ -21,9 +21,15 @@ public class TrackConfiguration : IEntityTypeConfiguration<Track>
 
         builder.Property(x => x.AlbumId).IsRequired();
 
-        builder.HasOne<Album>(x => x.Album).WithMany(x => x.Tracks).HasForeignKey(x => x.AlbumId)
+        builder.HasOne<Album>(x => x.Album)
+            .WithMany(x => x.Tracks)
+            .HasForeignKey(x => x.AlbumId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        builder.HasIndex(x => new { x.AlbumId, x.TrackNumber }).IsUnique();
+        builder.HasIndex(x => new
+            {
+                x.AlbumId, x.TrackNumber
+            })
+            .IsUnique();
     }
 }

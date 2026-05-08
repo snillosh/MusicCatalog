@@ -19,10 +19,16 @@ public sealed class AlbumConfiguration : IEntityTypeConfiguration<Album>
 
         builder.Property(x => x.ArtistId).IsRequired();
 
-        builder.HasOne<Artist>(a => a.Artist).WithMany(a => a.Albums).HasForeignKey(x => x.ArtistId)
+        builder.HasOne<Artist>(a => a.Artist)
+            .WithMany(a => a.Albums)
+            .HasForeignKey(x => x.ArtistId)
             .OnDelete(DeleteBehavior.Cascade);
 
-        builder.HasIndex(x => new { x.ArtistId, x.Title }).IsUnique();
+        builder.HasIndex(x => new
+            {
+                x.ArtistId, x.Title
+            })
+            .IsUnique();
 
         builder
             .HasMany(a => a.Genres)

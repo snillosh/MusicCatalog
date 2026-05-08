@@ -4,9 +4,7 @@ namespace MusicCatalog.Domain.Tracks;
 
 public sealed class Track
 {
-    private Track()
-    {
-    }
+    private Track() {}
 
     public Track(Guid albumId, int trackNumber, string title, int? durationSeconds)
     {
@@ -30,7 +28,9 @@ public sealed class Track
     public void Rename(string title)
     {
         if (string.IsNullOrWhiteSpace(title))
+        {
             throw new ArgumentNullException("Track title cannot be empty", nameof(title));
+        }
 
         Title = title.Trim();
     }
@@ -38,18 +38,26 @@ public sealed class Track
     public void SetTrackNumber(int trackNumber)
     {
         if (trackNumber < 1 || trackNumber > 200)
+        {
             throw new ArgumentOutOfRangeException(nameof(trackNumber), "Track number must be between 1 and 200");
+        }
 
         TrackNumber = trackNumber;
     }
 
     public void SetDurationSeconds(int? durationSeconds)
     {
-        if (durationSeconds is null) return;
+        if (durationSeconds is null)
+        {
+            return;
+        }
 
         if (durationSeconds < 0 || durationSeconds > 60 * 60 * 5)
-            throw new ArgumentOutOfRangeException(nameof(durationSeconds),
-                "Duration seconds must be between 0 seconds and 5 hours");
+        {
+            throw new ArgumentOutOfRangeException(
+            nameof(durationSeconds),
+            "Duration seconds must be between 0 seconds and 5 hours");
+        }
 
         DurationSeconds = durationSeconds;
     }

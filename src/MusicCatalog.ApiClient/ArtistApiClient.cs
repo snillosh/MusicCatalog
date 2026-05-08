@@ -14,7 +14,7 @@ public class ArtistApiClient(IHttpClientFactory httpClientFactory) : IArtistApiC
 
         var result = await _http.GetFromJsonAsync<PagedResult<ArtistDto>>(url, cancellationToken);
 
-        return result ?? new PagedResult<ArtistDto>([],0,0,0);
+        return result ?? new PagedResult<ArtistDto>([], 0, 0, 0);
     }
 
     public async Task<ArtistDto> CreateArtistAsync(CreateArtistRequest request, CancellationToken ct = default)

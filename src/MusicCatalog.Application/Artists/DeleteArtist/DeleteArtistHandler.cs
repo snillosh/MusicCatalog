@@ -7,7 +7,10 @@ public sealed class DeleteArtistHandler(IArtistRepository repo) : IRequestHandle
     public async Task<bool> Handle(DeleteArtistCommand request, CancellationToken ct)
     {
         var artist = await repo.GetByIdTrackedAsync(request.Id, ct);
-        if (artist is null) return false;
+        if (artist is null)
+        {
+            return false;
+        }
 
         await repo.DeleteAsync(artist, ct);
         return true;

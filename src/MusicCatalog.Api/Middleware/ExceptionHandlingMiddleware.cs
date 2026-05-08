@@ -19,8 +19,7 @@ public class ExceptionHandlingMiddleware : IMiddleware
 
             var problem = new ValidationProblemDetails(errors)
             {
-                Status = StatusCodes.Status400BadRequest,
-                Title = "Validation failed"
+                Status = StatusCodes.Status400BadRequest, Title = "Validation failed"
             };
 
             context.Response.StatusCode = problem.Status.Value;

@@ -1,4 +1,3 @@
-using MusicCatalog.Domain.Albums;
 using MusicCatalog.Domain.Genre;
 
 namespace MusicCatalog.Application.Genres;

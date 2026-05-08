@@ -1,6 +1,5 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using MusicCatalog.Application.Common.Results;
 using MusicCatalog.Application.Tracks.CreateTrack;
 using MusicCatalog.Application.Tracks.ListTracksByAlbum;
 using MusicCatalog.Contracts.Tracks;
@@ -16,7 +15,10 @@ public sealed class AlbumTracksController(ISender sender) : ControllerBase
         => Ok(await sender.Send(new ListTracksByAlbumQuery(albumId), ct));
 
     [HttpPost]
-    public async Task<ActionResult<TrackDto>> Create(Guid albumId, [FromBody] CreateTrackRequest request, CancellationToken ct)
+    public async Task<ActionResult<TrackDto>> Create(
+        Guid albumId,
+        [FromBody] CreateTrackRequest request,
+        CancellationToken ct)
     {
         var result = await sender.Send(
         new CreateTrackCommand(albumId, request.TrackNumber, request.Title, request.DurationSeconds),
@@ -31,7 +33,12 @@ public sealed class AlbumTracksController(ISender sender) : ControllerBase
                 _ => StatusCodes.Status400BadRequest
             };
 
-            return StatusCode(status, new ProblemDetails { Title = result.Error.Code, Detail = result.Error.Message });
+            return StatusCode(
+            status,
+            new ProblemDetails
+            {
+                Title = result.Error.Code, Detail = result.Error.Message
+            });
         }
 
         return StatusCode(StatusCodes.Status201Created, result.Value);

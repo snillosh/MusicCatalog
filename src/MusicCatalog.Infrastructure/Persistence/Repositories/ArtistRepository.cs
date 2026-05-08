@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using MusicCatalog.Application.Artists;
-using MusicCatalog.Contracts.Albums;
 using MusicCatalog.Contracts.Artists;
 using MusicCatalog.Contracts.Common.Paging;
 using MusicCatalog.Domain.Artists;
@@ -12,9 +11,9 @@ public class ArtistRepository(MusicCatalogDbContext db) : IArtistRepository
     public async Task<PagedResult<ArtistDto>> GetAllAsync(int page, int pageSize, CancellationToken ct)
     {
         var query = db.Artists.AsNoTracking();
-        
+
         var totalCount = await query.CountAsync(ct);
-        
+
         query = query
             .OrderBy(a => a.Name)
             .ThenBy(a => a.Id)
@@ -23,10 +22,11 @@ public class ArtistRepository(MusicCatalogDbContext db) : IArtistRepository
 
         var items = await query
             .Select(a => new ArtistDto(
-                a.Id,
-                a.Name, a.Country))
+            a.Id,
+            a.Name,
+            a.Country))
             .ToListAsync(ct);
-        
+
         return new PagedResult<ArtistDto>(items, page, pageSize, totalCount);
     }
 
@@ -58,7 +58,9 @@ public class ArtistRepository(MusicCatalogDbContext db) : IArtistRepository
         var query = db.Artists.AsQueryable();
 
         if (excludeId is not null)
+        {
             query = query.Where(a => a.Id != excludeId.Value);
+        }
 
         var lowered = name.ToLower();
         return await query.AnyAsync(a => a.Name.ToLower() == lowered, ct);

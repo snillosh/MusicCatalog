@@ -19,7 +19,9 @@ public interface IAlbumRepository
 
     Task<bool> ExistsByNameAsync(string name, Guid? excludeId, CancellationToken ct);
 
-    Task<PagedResult<AlbumListItemDto>> GetAllWithArtistNameAsync(int page, int pageSize,
+    Task<PagedResult<AlbumListItemDto>> GetAllWithArtistNameAsync(
+        int page,
+        int pageSize,
         int? releasedAfter,
         CancellationToken ct);
 }

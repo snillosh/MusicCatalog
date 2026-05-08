@@ -13,11 +13,16 @@ public sealed class CreateTrackHandler(IAlbumRepository albums, ITrackRepository
     {
         var album = await albums.GetByIdAsync(request.AlbumId, ct);
         if (album is null)
+        {
             return Result<TrackDto>.Fail("albums.notFound", "Album not found.");
+        }
 
         if (await tracks.ExistsTrackNumberAsync(request.AlbumId, request.TrackNumber, ct))
-            return Result<TrackDto>.Fail("tracks.duplicateTrackNumber",
+        {
+            return Result<TrackDto>.Fail(
+            "tracks.duplicateTrackNumber",
             "That track number already exists for this album.");
+        }
 
         var title = request.Title.Trim();
 
