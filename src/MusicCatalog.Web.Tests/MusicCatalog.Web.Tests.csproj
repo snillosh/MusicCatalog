@@ -1,0 +1,8 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <ItemGroup>
+        <ProjectReference Include="..\MusicCatalog.Web\MusicCatalog.Web.csproj"/>
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="bunit"/>
+    </ItemGroup>
+</Project>

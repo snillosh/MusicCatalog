@@ -21,8 +21,11 @@
         <Project Path="src/MusicCatalog.Contracts/MusicCatalog.Contracts.csproj" />
         <Project Path="src/MusicCatalog.Domain/MusicCatalog.Domain.csproj" />
         <Project Path="src/MusicCatalog.ExternalMetadata/MusicCatalog.ExternalMetadata.csproj" />
+        <Project Path="src/MusicCatalog.Importing.Tests/MusicCatalog.Importing.Tests.csproj" />
         <Project Path="src/MusicCatalog.Importing/MusicCatalog.Importing.csproj" />
+        <Project Path="src/MusicCatalog.Infrastructure.Tests/MusicCatalog.Infrastructure.Tests.csproj" />
         <Project Path="src/MusicCatalog.Infrastructure/MusicCatalog.Infrastructure.csproj" />
+        <Project Path="src/MusicCatalog.Web.Tests/MusicCatalog.Web.Tests.csproj" />
         <Project Path="src/MusicCatalog.Web/MusicCatalog.Web.csproj" />
     </Folder>
 </Solution>

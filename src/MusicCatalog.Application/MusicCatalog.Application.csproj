@@ -10,10 +10,4 @@
         <ProjectReference Include="..\MusicCatalog.Contracts\MusicCatalog.Contracts.csproj"/>
         <ProjectReference Include="..\MusicCatalog.Domain\MusicCatalog.Domain.csproj"/>
     </ItemGroup>
-
-    <ItemGroup>
-        <Folder Include="Artists\Dto\"/>
-        <Folder Include="Genres\Dto\"/>
-        <Folder Include="Tracks\Dto\"/>
-    </ItemGroup>
 </Project>

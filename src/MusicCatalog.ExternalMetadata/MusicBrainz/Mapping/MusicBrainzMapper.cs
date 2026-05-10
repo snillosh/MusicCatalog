@@ -32,9 +32,9 @@ internal static class MusicBrainzMapper
             .Select(x =>
             {
                 var trackNumber = x.Position ?? 0;
-                var duration = x.Length.GetValueOrDefault().Seconds;
+                var duration = x.Length.GetValueOrDefault().TotalSeconds;
 
-                return new TrackPreview(x.Title, trackNumber, duration);
+                return new TrackPreview(x.Title, trackNumber, (int)duration);
             })
             .ToList();
 
