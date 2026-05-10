@@ -20,7 +20,10 @@ public sealed class ArtistAlbumsController(ISender sender) : ControllerBase
         => Ok(await sender.Send(new ListAlbumsByArtistQuery(artistId, page, pageSize), ct));
 
     [HttpPost]
-    public async Task<ActionResult<AlbumDto>> Create(Guid artistId, [FromBody] CreateAlbumRequest request, CancellationToken ct)
+    public async Task<ActionResult<AlbumDto>> Create(
+        Guid artistId,
+        [FromBody] CreateAlbumRequest request,
+        CancellationToken ct)
     {
         var result = await sender.Send(new CreateAlbumCommand(artistId, request.Title, request.ReleaseYear), ct);
 
@@ -33,7 +36,12 @@ public sealed class ArtistAlbumsController(ISender sender) : ControllerBase
                 _ => StatusCodes.Status400BadRequest
             };
 
-            return StatusCode(status, new ProblemDetails { Title = result.Error.Code, Detail = result.Error.Message });
+            return StatusCode(
+            status,
+            new ProblemDetails
+            {
+                Title = result.Error.Code, Detail = result.Error.Message
+            });
         }
 
         return StatusCode(StatusCodes.Status201Created, result.Value);

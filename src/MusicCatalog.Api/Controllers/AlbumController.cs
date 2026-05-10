@@ -36,7 +36,10 @@ public class AlbumController(ISender sender) : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
-    public async Task<ActionResult<AlbumDto>> Update(Guid id, [FromBody] UpdateAlbumRequest request, CancellationToken ct)
+    public async Task<ActionResult<AlbumDto>> Update(
+        Guid id,
+        [FromBody] UpdateAlbumRequest request,
+        CancellationToken ct)
     {
         var dto = await sender.Send(new UpdateAlbumCommand(id, request.Title, request.ReleaseYear), ct);
         return dto is null ? NotFound() : Ok(dto);

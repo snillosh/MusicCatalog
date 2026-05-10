@@ -7,7 +7,9 @@ public class TrackApiClient(IHttpClientFactory httpClientFactory) : ITrackApiCli
 {
     private readonly HttpClient _http = httpClientFactory.CreateClient("MusicCatalogApi");
 
-    public async Task<TrackDto> CreateTrackAsync(Guid albumId, CreateTrackRequest request,
+    public async Task<TrackDto> CreateTrackAsync(
+        Guid albumId,
+        CreateTrackRequest request,
         CancellationToken ct = default)
     {
         var response = await _http.PostAsJsonAsync(

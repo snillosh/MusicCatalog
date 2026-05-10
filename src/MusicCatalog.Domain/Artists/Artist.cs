@@ -4,9 +4,7 @@ namespace MusicCatalog.Domain.Artists;
 
 public sealed class Artist
 {
-    private Artist()
-    {
-    }
+    private Artist() {}
 
     public Artist(string name, string? country = null)
     {
@@ -33,7 +31,10 @@ public sealed class Artist
             return;
         }
 
-        if (country.Length != 2) throw new ArgumentException("Country must be a 2 letter code");
+        if (country.Length != 2)
+        {
+            throw new ArgumentException("Country must be a 2 letter code");
+        }
 
         Country = country.ToUpperInvariant();
     }

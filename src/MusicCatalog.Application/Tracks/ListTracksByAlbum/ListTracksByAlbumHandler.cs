@@ -6,7 +6,8 @@ namespace MusicCatalog.Application.Tracks.ListTracksByAlbum;
 public class ListTracksByAlbumHandler(ITrackRepository repository)
     : IRequestHandler<ListTracksByAlbumQuery, IReadOnlyList<TrackDto>>
 {
-    public async Task<IReadOnlyList<TrackDto>> Handle(ListTracksByAlbumQuery request,
+    public async Task<IReadOnlyList<TrackDto>> Handle(
+        ListTracksByAlbumQuery request,
         CancellationToken cancellationToken)
     {
         var tracks = await repository.GetByAlbumIdAsync(request.AlbumId, cancellationToken);

@@ -19,7 +19,8 @@ public static class DependencyInjection
 
         public IServiceCollection AddApiClients(IConfiguration config)
         {
-            services.AddHttpClient("MusicCatalogApi",
+            services.AddHttpClient(
+            "MusicCatalogApi",
             c => { c.BaseAddress = new Uri(config["MusicCatalogApi:BaseUrl"]!); });
 
             services.AddScoped<IAlbumApiClient, AlbumApiClient>();

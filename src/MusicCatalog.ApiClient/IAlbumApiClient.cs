@@ -10,6 +10,8 @@ public interface IAlbumApiClient
         int pageSize = 50,
         int? releasedAfter = null,
         CancellationToken cancellationToken = default);
-    Task<AlbumDto> CreateAlbumAsync(Guid artistId, CreateAlbumRequest request,
+    Task<AlbumDto> CreateAlbumAsync(
+        Guid artistId,
+        CreateAlbumRequest request,
         CancellationToken ct = default);
 }

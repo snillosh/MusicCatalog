@@ -19,7 +19,8 @@ public sealed class MusicBrainzMetadataService : IMusicMetadataService, IDisposa
 
     public async Task<AlbumImportPreview> LookupAlbumImportPreviewAsync(Guid releaseId)
     {
-        var release = await _query.LookupReleaseAsync(releaseId,
+        var release = await _query.LookupReleaseAsync(
+        releaseId,
         Include.Media
         | Include.Recordings
         | Include.ArtistCredits);

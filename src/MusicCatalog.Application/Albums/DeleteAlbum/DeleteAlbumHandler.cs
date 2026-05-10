@@ -8,7 +8,10 @@ public class DeleteAlbumHandler(IAlbumRepository repository) : IRequestHandler<D
     {
         var album = await repository.GetByIdTrackedAsync(request.Id, cancellationToken);
 
-        if (album is null) return false;
+        if (album is null)
+        {
+            return false;
+        }
 
         await repository.DeleteAsync(album, cancellationToken);
         return true;

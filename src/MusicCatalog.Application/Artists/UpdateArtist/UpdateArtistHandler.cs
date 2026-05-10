@@ -8,13 +8,18 @@ public sealed class UpdateArtistHandler(IArtistRepository repo) : IRequestHandle
     public async Task<ArtistDto?> Handle(UpdateArtistCommand request, CancellationToken ct)
     {
         var artist = await repo.GetByIdTrackedAsync(request.Id, ct);
-        if (artist is null) return null;
+        if (artist is null)
+        {
+            return null;
+        }
 
         var newName = request.Name.Trim();
         var newCountry = request.Country;
 
         if (await repo.ExistsByNameAsync(newName, request.Id, ct))
+        {
             throw new InvalidOperationException("artists.duplicate");
+        }
 
         artist.Rename(newName);
 

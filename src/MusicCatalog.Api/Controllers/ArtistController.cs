@@ -18,7 +18,7 @@ public sealed class ArtistController(ISender sender) : ControllerBase
     public async Task<ActionResult<PagedResult<ArtistDto>>> List(
         [FromQuery] int page = 1,
         [FromQuery] int pageSize = 50,
-        CancellationToken cancellationToken= default) =>
+        CancellationToken cancellationToken = default) =>
         Ok(await sender.Send(new ListArtistsQuery(), cancellationToken));
 
     [HttpGet("{id:guid}")]
@@ -33,13 +33,28 @@ public sealed class ArtistController(ISender sender) : ControllerBase
     {
         var result = await sender.Send(new CreateArtistCommand(request.Name, request.Country), ct);
         if (!result.IsSuccess)
-            return Conflict(new ProblemDetails { Title = result.Error!.Code, Detail = result.Error.Message });
+        {
+            return Conflict(
+            new ProblemDetails
+            {
+                Title = result.Error!.Code, Detail = result.Error.Message
+            });
+        }
 
-        return CreatedAtAction(nameof(GetById), new { id = result.Value!.Id }, result.Value);
+        return CreatedAtAction(
+        nameof(GetById),
+        new
+        {
+            id = result.Value!.Id
+        },
+        result.Value);
     }
 
     [HttpPut("{id:guid}")]
-    public async Task<ActionResult<ArtistDto>> Update(Guid id, [FromBody] UpdateArtistRequest request, CancellationToken ct)
+    public async Task<ActionResult<ArtistDto>> Update(
+        Guid id,
+        [FromBody] UpdateArtistRequest request,
+        CancellationToken ct)
     {
         var dto = await sender.Send(new UpdateArtistCommand(id, request.Name, request.Country), ct);
         return dto is null ? NotFound() : Ok(dto);
