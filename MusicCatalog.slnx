@@ -10,6 +10,7 @@
         <File Path="Directory.Tests.props" />
         <File Path="global.json" />
         <File Path=".editorconfig" />
+        <File Path=".github\workflows\dotnet.yml" />
         <File Path=".gitignore" />
     </Folder>
     <Folder Name="/src/">
