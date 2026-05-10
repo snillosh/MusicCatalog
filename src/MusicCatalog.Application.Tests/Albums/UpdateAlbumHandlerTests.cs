@@ -11,13 +11,15 @@ namespace MusicCatalog.Application.Tests.Albums;
 [TestFixture]
 public class UpdateAlbumHandlerTests
 {
-    private readonly IAlbumRepository _albumRepository = Substitute.For<IAlbumRepository>();
-    private readonly UpdateAlbumHandler _handler;
 
-    public UpdateAlbumHandlerTests()
+    [SetUp]
+    public void SetUp()
     {
+        _albumRepository = Substitute.For<IAlbumRepository>();
         _handler = new UpdateAlbumHandler(_albumRepository);
     }
+    private IAlbumRepository _albumRepository = null!;
+    private UpdateAlbumHandler _handler = null!;
 
     [Test]
     public async Task Handle_WithValidRequest_ReturnsAlbum()
