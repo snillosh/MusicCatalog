@@ -1,11 +1,16 @@
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
 using MusicCatalog.Application.Albums;
 using MusicCatalog.Application.Artists;
+using MusicCatalog.Application.Authentication;
 using MusicCatalog.Application.Genres;
 using MusicCatalog.Application.Tracks;
+using MusicCatalog.Infrastructure.Authentication;
 using MusicCatalog.Infrastructure.Identity;
 using MusicCatalog.Infrastructure.Persistence;
 using MusicCatalog.Infrastructure.Persistence.Repositories;
@@ -21,6 +26,50 @@ public static class DependencyInjection
 
         services.AddDbContext<MusicCatalogDbContext>(options => { options.UseNpgsql(connectionString); });
         
+        services.Configure<JwtOptions>(
+            configuration.GetSection(JwtOptions.SectionName));
+        
+        var jwtOptions = configuration
+                             .GetSection(JwtOptions.SectionName)
+                             .Get<JwtOptions>()
+                         ?? throw new InvalidOperationException("JWT configuration is missing.");
+
+        if (string.IsNullOrWhiteSpace(jwtOptions.Key))
+        {
+            throw new InvalidOperationException("JWT key is missing.");
+        }
+
+        services
+            .AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidIssuer = jwtOptions.Issuer,
+
+                    ValidateAudience = true,
+                    ValidAudience = jwtOptions.Audience,
+
+                    ValidateLifetime = true,
+
+                    ValidateIssuerSigningKey = true,
+                    // Using a UTF-8 signing key here atm.
+                    // May want to change it to base 64 later.
+                    IssuerSigningKey = new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(jwtOptions.Key)),
+
+                    ClockSkew = TimeSpan.Zero
+                };
+            });
+        
+        services.AddScoped<IJwtTokenService, JwtTokenService>();
+        
         services
             .AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
@@ -35,9 +84,8 @@ public static class DependencyInjection
             .AddEntityFrameworkStores<MusicCatalogDbContext>()
             .AddDefaultTokenProviders();
         
-        services
-            .AddAuthentication()
-            .AddJwtBearer();
+        services.AddScoped<IIdentityService, IdentityService>();
+        services.AddScoped<IJwtTokenService, JwtTokenService>();
 
         services.AddScoped<IArtistRepository, ArtistRepository>();
         services.AddScoped<IAlbumRepository, AlbumRepository>();

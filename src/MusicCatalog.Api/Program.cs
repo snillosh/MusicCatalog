@@ -1,3 +1,4 @@
+using Microsoft.OpenApi;
 using MusicCatalog.Api.Middleware;
 using MusicCatalog.Application;
 using MusicCatalog.Infrastructure;
@@ -9,7 +10,23 @@ builder.Services.AddControllers();
 builder.Services.AddApplication().AddInfrastructure(builder.Configuration);
 builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition(
+        "Bearer",
+        new OpenApiSecurityScheme
+        {
+            In = ParameterLocation.Header,
+            Description = "Please enter a valid token.",
+            Name = "Authorization",
+            Type = SecuritySchemeType.Http,
+            BearerFormat = "JWT",
+            Scheme = "bearer",
+        }
+    );
+
+    options.AddSecurityRequirement(document => new() { [new OpenApiSecuritySchemeReference("Bearer", document)] = [] });
+});
 
 var app = builder.Build();
 
