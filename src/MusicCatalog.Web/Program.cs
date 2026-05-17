@@ -5,6 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
     .AddWeb()
+    .AddAuthenticationServices()
     .AddApiClients(builder.Configuration)
     .AddApplicationServices()
     .AddExternalServices();

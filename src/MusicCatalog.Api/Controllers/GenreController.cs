@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MusicCatalog.Application.Genres.CreateGenre;
 using MusicCatalog.Application.Genres.GetGenreById;
@@ -10,6 +11,7 @@ namespace MusicCatalog.Api.Controllers;
 [Route("api/genres")]
 public class GenreController(ISender sender) : ControllerBase
 {
+    [AllowAnonymous]
     [HttpGet("{id:guid}")]
     public async Task<ActionResult<GenreDto?>> GetById(Guid id, CancellationToken ct)
     {
@@ -17,6 +19,7 @@ public class GenreController(ISender sender) : ControllerBase
         return dto is null ? NotFound() : Ok(dto);
     }
 
+    [Authorize]
     [HttpPost]
     public async Task<ActionResult<GenreDto?>> Create([FromBody] CreateGenreRequest request, CancellationToken ct)
     {

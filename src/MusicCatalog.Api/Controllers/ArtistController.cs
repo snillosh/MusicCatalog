@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MusicCatalog.Application.Artists.CreateArtist;
 using MusicCatalog.Application.Artists.DeleteArtist;
@@ -14,6 +15,7 @@ namespace MusicCatalog.Api.Controllers;
 [Route("api/artists")]
 public sealed class ArtistController(ISender sender) : ControllerBase
 {
+    [AllowAnonymous]
     [HttpGet]
     public async Task<ActionResult<PagedResult<ArtistDto>>> List(
         [FromQuery] int page = 1,
@@ -21,6 +23,7 @@ public sealed class ArtistController(ISender sender) : ControllerBase
         CancellationToken cancellationToken = default) =>
         Ok(await sender.Send(new ListArtistsQuery(), cancellationToken));
 
+    [AllowAnonymous]
     [HttpGet("{id:guid}")]
     public async Task<ActionResult<ArtistDto?>> GetById(Guid id, CancellationToken ct)
     {
@@ -28,6 +31,7 @@ public sealed class ArtistController(ISender sender) : ControllerBase
         return dto is null ? NotFound() : Ok(dto);
     }
 
+    [Authorize]
     [HttpPost]
     public async Task<ActionResult<ArtistDto>> Create([FromBody] CreateArtistRequest request, CancellationToken ct)
     {
@@ -50,6 +54,7 @@ public sealed class ArtistController(ISender sender) : ControllerBase
         result.Value);
     }
 
+    [Authorize]
     [HttpPut("{id:guid}")]
     public async Task<ActionResult<ArtistDto>> Update(
         Guid id,
@@ -60,6 +65,7 @@ public sealed class ArtistController(ISender sender) : ControllerBase
         return dto is null ? NotFound() : Ok(dto);
     }
 
+    [Authorize]
     [HttpDelete("{id:guid}")]
     public async Task<ActionResult<bool>> Delete(Guid id, CancellationToken ct)
     {

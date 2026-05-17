@@ -1,9 +1,10 @@
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using MusicCatalog.Contracts.Tracks;
 
 namespace MusicCatalog.ApiClient;
 
-public class TrackApiClient(IHttpClientFactory httpClientFactory) : ITrackApiClient
+public class TrackApiClient(IHttpClientFactory httpClientFactory, IAccessTokenStore tokenStore) : ITrackApiClient
 {
     private readonly HttpClient _http = httpClientFactory.CreateClient("MusicCatalogApi");
 
@@ -12,6 +13,14 @@ public class TrackApiClient(IHttpClientFactory httpClientFactory) : ITrackApiCli
         CreateTrackRequest request,
         CancellationToken ct = default)
     {
+        var token = await tokenStore.GetAccessTokenAsync();
+
+        if (!string.IsNullOrWhiteSpace(token))
+        {
+            _http.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", token);
+        }
+
         var response = await _http.PostAsJsonAsync(
         $"api/albums/{albumId}/tracks",
         request,

@@ -1,6 +1,7 @@
 using Bunit;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
+using MusicCatalog.ApiClient;
 using MusicCatalog.Contracts.Albums;
 using MusicCatalog.Contracts.Tracks;
 using MusicCatalog.ExternalMetadata;
@@ -22,9 +23,11 @@ public class AlbumImportTests
 
         _musicService = Substitute.For<IMusicMetadataService>();
         _albumImportService = Substitute.For<IAlbumImportService>();
+        _tokenProvider = Substitute.For<IAccessTokenStore>();
 
         _context.Services.AddSingleton(_musicService);
         _context.Services.AddSingleton(_albumImportService);
+        _context.Services.AddSingleton(_tokenProvider);
     }
 
     [TearDown]
@@ -32,6 +35,7 @@ public class AlbumImportTests
     private BunitContext _context = null!;
     private IMusicMetadataService _musicService = null!;
     private IAlbumImportService _albumImportService = null!;
+    private IAccessTokenStore _tokenProvider = null!;
 
     [Test]
     public void AlbumImport_RendersSearchForm()
@@ -167,6 +171,8 @@ public class AlbumImportTests
     [Test]
     public void AddAlbum_WhenPreviewLoaded_CallsImportService()
     {
+        _tokenProvider.GetAccessTokenAsync().Returns("token");
+
         var releaseId = Guid.NewGuid();
 
         var preview = new AlbumImportPreview(

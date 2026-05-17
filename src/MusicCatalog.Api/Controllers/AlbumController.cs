@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MusicCatalog.Application.Albums.DeleteAlbum;
 using MusicCatalog.Application.Albums.GetAlbumById;
@@ -13,6 +14,7 @@ namespace MusicCatalog.Api.Controllers;
 [Route("api/albums")]
 public class AlbumController(ISender sender) : ControllerBase
 {
+    [AllowAnonymous]
     [HttpGet]
     public async Task<ActionResult<PagedResult<AlbumListItemDto>>> List(
         [FromQuery] int page = 1,
@@ -21,6 +23,7 @@ public class AlbumController(ISender sender) : ControllerBase
         CancellationToken cancellationToken = default) =>
         Ok(await sender.Send(new ListAlbumsQuery(page, pageSize, releasedAfter), cancellationToken));
 
+    [AllowAnonymous]
     [HttpGet("{id:guid}")]
     public async Task<ActionResult<AlbumDto?>> GetById(Guid id, CancellationToken ct)
     {
@@ -28,6 +31,7 @@ public class AlbumController(ISender sender) : ControllerBase
         return dto is null ? NotFound() : Ok(dto);
     }
 
+    [Authorize]
     [HttpDelete("{id:guid}")]
     public async Task<ActionResult<bool>> Delete(Guid id, CancellationToken ct)
     {
@@ -35,6 +39,7 @@ public class AlbumController(ISender sender) : ControllerBase
         return deleted ? NoContent() : NotFound();
     }
 
+    [Authorize]
     [HttpPut("{id:guid}")]
     public async Task<ActionResult<AlbumDto>> Update(
         Guid id,

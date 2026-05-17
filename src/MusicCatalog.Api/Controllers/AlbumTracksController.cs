@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MusicCatalog.Application.Tracks.CreateTrack;
 using MusicCatalog.Application.Tracks.ListTracksByAlbum;
@@ -10,10 +11,12 @@ namespace MusicCatalog.Api.Controllers;
 [Route("api/albums/{albumId:guid}/tracks")]
 public sealed class AlbumTracksController(ISender sender) : ControllerBase
 {
+    [AllowAnonymous]
     [HttpGet]
     public async Task<ActionResult<IReadOnlyList<TrackDto>>> GetAllTracksByAlbumId(Guid albumId, CancellationToken ct)
         => Ok(await sender.Send(new ListTracksByAlbumQuery(albumId), ct));
 
+    [Authorize]
     [HttpPost]
     public async Task<ActionResult<TrackDto>> Create(
         Guid albumId,
