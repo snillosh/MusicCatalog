@@ -5,5 +5,4 @@ public record AlbumSearchResult(
     Guid ReleaseId,
     string Title,
     string ArtistName,
-    string ReleaseDate,
-    int TrackCount);
+    string ReleaseDate);

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Components.Authorization;
 using MusicCatalog.ApiClient;
 using MusicCatalog.ExternalMetadata;
 using MusicCatalog.ExternalMetadata.MusicBrainz.Metadata;
@@ -34,7 +35,11 @@ public static class DependencyInjection
 
         public IServiceCollection AddAuthenticationServices()
         {
+            services.AddAuthorizationCore();
             services.AddScoped<IAccessTokenStore, ServerAccessTokenStore>();
+            services.AddScoped<JwtAuthenticationStateProvider>();
+            services.AddScoped<AuthenticationStateProvider>(sp =>
+                sp.GetRequiredService<JwtAuthenticationStateProvider>());
 
             return services;
         }

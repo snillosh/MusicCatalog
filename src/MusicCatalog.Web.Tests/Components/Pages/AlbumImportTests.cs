@@ -62,8 +62,7 @@ public class AlbumImportTests
                 releaseId,
                 "Imaginal Disk",
                 "Magdalena Bay",
-                "2024",
-                15)
+                "2024")
             });
 
         var component = _context.Render<AlbumImport>();
@@ -94,8 +93,7 @@ public class AlbumImportTests
                 releaseId,
                 "Imaginal Disk",
                 "Magdalena Bay",
-                "2024",
-                2)
+                "2024")
             });
 
         _musicService.LookupAlbumImportPreviewAsync(releaseId)
@@ -142,8 +140,7 @@ public class AlbumImportTests
                 releaseId,
                 "Imaginal Disk",
                 "Magdalena Bay",
-                "2024",
-                1)
+                "2024")
             });
 
         _musicService.LookupAlbumImportPreviewAsync(releaseId)
@@ -194,8 +191,7 @@ public class AlbumImportTests
                 releaseId,
                 "Imaginal Disk",
                 "Magdalena Bay",
-                "2024",
-                1)
+                "2024")
             });
 
         _musicService.LookupAlbumImportPreviewAsync(releaseId)

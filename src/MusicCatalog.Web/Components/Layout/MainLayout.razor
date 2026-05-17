@@ -1,9 +1,92 @@
-﻿@inherits LayoutComponentBase
+﻿@using Microsoft.AspNetCore.Components.Authorization
+@using MusicCatalog.Web.Auth
+@inherits LayoutComponentBase
 
-@Body
+@inject JwtAuthenticationStateProvider AuthProvider
+@inject NavigationManager Navigation
 
-<div id="blazor-error-ui" data-nosnippet>
-    An unhandled error has occurred.
-    <a href="." class="reload">Reload</a>
-    <span class="dismiss">🗙</span>
+<div data-bs-theme="dark" class="min-vh-100 bg-dark text-light">
+    <nav class="navbar navbar-expand-lg bg-dark border-bottom border-secondary">
+        <div class="container-fluid">
+            <a class="navbar-brand text-light" href="/">Music Catalog</a>
+
+            <button class="navbar-toggler" type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <NavLink class="nav-link" href="/" Match="NavLinkMatch.All">
+                            Home
+                        </NavLink>
+                    </li>
+
+                    <li class="nav-item">
+                        <NavLink class="nav-link" href="/album-import">
+                            Album Import
+                        </NavLink>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button"
+                           data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            Data View
+                        </a>
+
+                        <ul class="dropdown-menu dropdown-menu-dark">
+                            <li><a class="dropdown-item" href="#">Artists</a></li>
+                            <li><a class="dropdown-item" href="#">Albums</a></li>
+                            <li><a class="dropdown-item" href="#">Tracks</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <div class="d-flex align-items-center">
+                    <AuthorizeView Context="auth">
+                        <Authorized>
+                            <span class="me-3 text-light">
+                                Hello @auth.User.Identity?.Name
+                            </span>
+
+                            <button class="btn btn-outline-danger"
+                                    @onclick="Logout">
+                                Logout
+                            </button>
+                        </Authorized>
+
+                        <NotAuthorized>
+                            <NavLink class="btn btn-outline-light" href="/login">
+                                Login
+                            </NavLink>
+                        </NotAuthorized>
+                    </AuthorizeView>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="container-fluid py-4">
+        @Body
+    </main>
+
+    <div id="blazor-error-ui" data-nosnippet>
+        An unhandled error has occurred.
+        <a href="." class="reload">Reload</a>
+        <span class="dismiss">🗙</span>
+    </div>
 </div>
+
+@code {
+    private async Task Logout()
+    {
+        await AuthProvider.MarkUserAsLoggedOutAsync();
+        Navigation.NavigateTo("/login");
+    }
+}

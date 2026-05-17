@@ -3,9 +3,9 @@
 @using MusicCatalog.ApiClient
 @using MusicCatalog.Contracts.Authentication
 @using MusicCatalog.Web.Auth
-@rendermode InteractiveServer
+
 @inject IAuthApiClient AuthApiClient
-@inject IAccessTokenStore TokenStore
+@inject JwtAuthenticationStateProvider AuthProvider
 @inject NavigationManager Navigation
 
 <PageTitle>Login</PageTitle>
@@ -86,8 +86,8 @@
             var response = await AuthApiClient.LoginAsync(
             new LoginRequest(Model.Email, Model.Password));
 
-            await TokenStore.SetAccessTokenAsync(response.AccessToken);
-            Navigation.NavigateTo("/album-import");
+            await AuthProvider.MarkUserAsAuthenticatedAsync(response.AccessToken);
+            Navigation.NavigateTo("/album-import", true);
         }
         catch (Exception ex)
         {
