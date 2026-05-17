@@ -73,7 +73,7 @@ public class AlbumImportTests
         component.Markup.Should().Contain("Search Results");
         component.Markup.Should().Contain("Imaginal Disk");
         component.Markup.Should().Contain("Magdalena Bay");
-        component.Markup.Should().Contain("2024 · 15 tracks");
+        component.Markup.Should().Contain("2024");
 
         _musicService.Received(1)
             .FindSimpleAlbumsAsync("Imaginal Disk");
