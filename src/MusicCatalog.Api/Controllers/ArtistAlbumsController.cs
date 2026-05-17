@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MusicCatalog.Application.Albums.CreateAlbum;
 using MusicCatalog.Application.Albums.ListAlbumsByArtist;
@@ -11,6 +12,7 @@ namespace MusicCatalog.Api.Controllers;
 [Route("api/artists/{artistId:guid}/albums")]
 public sealed class ArtistAlbumsController(ISender sender) : ControllerBase
 {
+    [AllowAnonymous]
     [HttpGet]
     public async Task<ActionResult<PagedResult<AlbumListItemDto>>> GetAllAlbumsByArtistId(
         Guid artistId,
@@ -19,6 +21,7 @@ public sealed class ArtistAlbumsController(ISender sender) : ControllerBase
         CancellationToken ct = default)
         => Ok(await sender.Send(new ListAlbumsByArtistQuery(artistId, page, pageSize), ct));
 
+    [Authorize]
     [HttpPost]
     public async Task<ActionResult<AlbumDto>> Create(
         Guid artistId,

@@ -25,10 +25,10 @@ public static class DependencyInjection
                                ?? throw new InvalidOperationException("Connection string 'MusicCatalog' not found.");
 
         services.AddDbContext<MusicCatalogDbContext>(options => { options.UseNpgsql(connectionString); });
-        
+
         services.Configure<JwtOptions>(
-            configuration.GetSection(JwtOptions.SectionName));
-        
+        configuration.GetSection(JwtOptions.SectionName));
+
         var jwtOptions = configuration
                              .GetSection(JwtOptions.SectionName)
                              .Get<JwtOptions>()
@@ -52,26 +52,20 @@ public static class DependencyInjection
                 {
                     ValidateIssuer = true,
                     ValidIssuer = jwtOptions.Issuer,
-
                     ValidateAudience = true,
                     ValidAudience = jwtOptions.Audience,
-
                     ValidateLifetime = true,
-
                     ValidateIssuerSigningKey = true,
                     // Using a UTF-8 signing key here atm.
                     // May want to change it to base 64 later.
                     IssuerSigningKey = new SymmetricSecurityKey(
-                        Encoding.UTF8.GetBytes(jwtOptions.Key)),
-
+                    Encoding.UTF8.GetBytes(jwtOptions.Key)),
                     ClockSkew = TimeSpan.Zero
                 };
             });
-        
-        services.AddScoped<IJwtTokenService, JwtTokenService>();
-        
+
         services
-            .AddIdentity<ApplicationUser, IdentityRole>(options =>
+            .AddIdentityCore<ApplicationUser>(options =>
             {
                 options.User.RequireUniqueEmail = true;
 
@@ -81,9 +75,10 @@ public static class DependencyInjection
                 options.Password.RequireUppercase = true;
                 options.Password.RequireNonAlphanumeric = false;
             })
+            .AddRoles<IdentityRole>()
             .AddEntityFrameworkStores<MusicCatalogDbContext>()
             .AddDefaultTokenProviders();
-        
+
         services.AddScoped<IIdentityService, IdentityService>();
         services.AddScoped<IJwtTokenService, JwtTokenService>();
 
