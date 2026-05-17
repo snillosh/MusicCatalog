@@ -1,10 +1,11 @@
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using MusicCatalog.Contracts.Albums;
 using MusicCatalog.Contracts.Common.Paging;
 
 namespace MusicCatalog.ApiClient;
 
-public class AlbumApiClient(IHttpClientFactory httpClientFactory) : IAlbumApiClient
+public class AlbumApiClient(IHttpClientFactory httpClientFactory, IAccessTokenStore tokenStore) : IAlbumApiClient
 {
     private readonly HttpClient _http = httpClientFactory.CreateClient("MusicCatalogApi");
 
@@ -31,6 +32,14 @@ public class AlbumApiClient(IHttpClientFactory httpClientFactory) : IAlbumApiCli
         CreateAlbumRequest request,
         CancellationToken ct = default)
     {
+        var token = await tokenStore.GetAccessTokenAsync();
+
+        if (!string.IsNullOrWhiteSpace(token))
+        {
+            _http.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", token);
+        }
+
         var response = await _http.PostAsJsonAsync(
         $"api/artists/{artistId}/albums",
         request,

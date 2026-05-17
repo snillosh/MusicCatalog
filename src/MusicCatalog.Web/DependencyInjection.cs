@@ -2,6 +2,7 @@ using MusicCatalog.ApiClient;
 using MusicCatalog.ExternalMetadata;
 using MusicCatalog.ExternalMetadata.MusicBrainz.Metadata;
 using MusicCatalog.Importing;
+using MusicCatalog.Web.Auth;
 
 namespace MusicCatalog.Web;
 
@@ -26,6 +27,14 @@ public static class DependencyInjection
             services.AddScoped<IAlbumApiClient, AlbumApiClient>();
             services.AddScoped<IArtistApiClient, ArtistApiClient>();
             services.AddScoped<ITrackApiClient, TrackApiClient>();
+            services.AddScoped<IAuthApiClient, AuthApiClient>();
+
+            return services;
+        }
+
+        public IServiceCollection AddAuthenticationServices()
+        {
+            services.AddScoped<IAccessTokenStore, ServerAccessTokenStore>();
 
             return services;
         }
@@ -33,6 +42,7 @@ public static class DependencyInjection
         public IServiceCollection AddApplicationServices()
         {
             services.AddScoped<IAlbumImportService, AlbumImportService>();
+
             return services;
         }
 

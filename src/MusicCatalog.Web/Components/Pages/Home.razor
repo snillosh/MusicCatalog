@@ -1,3 +1,38 @@
 ﻿@page "/"
+@using MusicCatalog.ApiClient
+@rendermode InteractiveServer
 
-<AlbumImport></AlbumImport>
+@inject IAccessTokenStore TokenStore
+@inject NavigationManager Navigation
+
+@if (_isAuthenticated)
+{
+    <AlbumImport/>
+}
+
+@code {
+    private bool _isAuthenticated;
+    private bool _checkedAuth;
+
+    protected async override Task OnAfterRenderAsync(
+        bool firstRender)
+    {
+        if (!firstRender)
+        {
+            return;
+        }
+
+        var token = await TokenStore.GetAccessTokenAsync();
+
+        if (string.IsNullOrWhiteSpace(token))
+        {
+            Navigation.NavigateTo("/login");
+            return;
+        }
+
+        _isAuthenticated = true;
+        _checkedAuth = true;
+
+        StateHasChanged();
+    }
+}
