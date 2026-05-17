@@ -16,8 +16,7 @@ internal static class MusicBrainzMapper
             x.Item.Releases?.FirstOrDefault()?.Id ?? Guid.Empty,
             x.Item.Title,
             x.Item.ArtistCredit.FirstOrDefault()?.Name ?? "Unknown Artist",
-            x.Item.FirstReleaseDate?.Year.ToString(),
-            10))
+            x.Item.FirstReleaseDate?.Year.ToString()))
             .ToList();
     }
 

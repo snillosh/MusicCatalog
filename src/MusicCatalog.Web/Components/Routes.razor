@@ -1,7 +1,13 @@
-﻿@using MusicCatalog.Web.Components.Pages
-<Router AppAssembly="typeof(Program).Assembly" NotFoundPage="typeof(NotFound)">
-    <Found Context="routeData">
-        <RouteView RouteData="routeData" DefaultLayout="typeof(MainLayout)"/>
-        <FocusOnNavigate RouteData="routeData" Selector="h1"/>
-    </Found>
-</Router>
+﻿@using Microsoft.AspNetCore.Components.Authorization
+@using MusicCatalog.Web.Components.Pages
+@rendermode @(new InteractiveServerRenderMode(false))
+<CascadingAuthenticationState>
+    <Router AppAssembly="typeof(Program).Assembly" NotFoundPage="typeof(NotFound)">
+        <Found Context="routeData">
+            <AuthorizeRouteView RouteData="routeData"
+                                DefaultLayout="typeof(MainLayout)"/>
+
+            <FocusOnNavigate RouteData="routeData" Selector="h1"/>
+        </Found>
+    </Router>
+</CascadingAuthenticationState>
