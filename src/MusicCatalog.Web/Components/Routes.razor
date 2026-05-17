@@ -1,6 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Components.Authorization
 @using MusicCatalog.Web.Components.Pages
-@rendermode InteractiveServer
+@rendermode @(new InteractiveServerRenderMode(false))
 <CascadingAuthenticationState>
     <Router AppAssembly="typeof(Program).Assembly" NotFoundPage="typeof(NotFound)">
         <Found Context="routeData">

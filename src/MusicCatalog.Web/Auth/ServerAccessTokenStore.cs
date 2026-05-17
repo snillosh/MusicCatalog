@@ -1,23 +1,19 @@
+using Microsoft.AspNetCore.Components.Server.ProtectedBrowserStorage;
 using MusicCatalog.ApiClient;
 
 namespace MusicCatalog.Web.Auth;
 
-public sealed class ServerAccessTokenStore : IAccessTokenStore
+public sealed class ServerAccessTokenStore(ProtectedSessionStorage sessionStorage) : IAccessTokenStore
 {
-    private string? _accessToken;
+    private const string AccessTokenKey = "access_token";
 
-    public Task<string?> GetAccessTokenAsync() =>
-        Task.FromResult(_accessToken);
-
-    public Task SetAccessTokenAsync(string token)
+    public async Task<string?> GetAccessTokenAsync()
     {
-        _accessToken = token;
-        return Task.CompletedTask;
+        var result = await sessionStorage.GetAsync<string>(AccessTokenKey);
+        return result.Success ? result.Value : null;
     }
 
-    public Task ClearAsync()
-    {
-        _accessToken = null;
-        return Task.CompletedTask;
-    }
+    public async Task SetAccessTokenAsync(string token) => await sessionStorage.SetAsync(AccessTokenKey, token);
+
+    public async Task ClearAsync() => await sessionStorage.DeleteAsync(AccessTokenKey);
 }
