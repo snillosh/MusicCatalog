@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using MusicCatalog.Application.Authentication;
+using MusicCatalog.Application.Common.Results;
 
 namespace MusicCatalog.Infrastructure.Identity;
 
@@ -29,12 +30,12 @@ public sealed class IdentityService(
         var roles = await userManager.GetRolesAsync(user);
 
         return new UserLoginResult(
-            user.Id,
-            user.Email!,
-            roles.AsReadOnly());
+        user.Id,
+        user.Email!,
+        roles.AsReadOnly());
     }
-    
-    public async Task<bool> CreateUserAsync(
+
+    public async Task<Result> CreateUserAsync(
         string email,
         string password,
         string? displayName,
@@ -42,13 +43,18 @@ public sealed class IdentityService(
     {
         var user = new ApplicationUser
         {
-            UserName = email,
-            Email = email,
-            DisplayName = displayName ?? string.Empty
+            UserName = email, Email = email, DisplayName = displayName ?? string.Empty
         };
 
         var result = await userManager.CreateAsync(user, password);
 
-        return result.Succeeded;
+        if (result.Succeeded)
+        {
+            return Result.Success();
+        }
+
+        var message = string.Join(" ", result.Errors.Select(e => e.Description));
+
+        return Result.Fail("Identity.UserCreationFailed", message);
     }
 }

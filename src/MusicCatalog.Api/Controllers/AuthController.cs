@@ -18,11 +18,13 @@ public sealed class AuthController(ISender sender) : ControllerBase
         [FromBody] LoginRequest request,
         CancellationToken ct)
     {
-        var response = await sender.Send(
+        var result = await sender.Send(
         new LoginCommand(request.Email, request.Password),
         ct);
 
-        return response is null ? Unauthorized() : Ok(response);
+        return result.IsSuccess
+            ? Ok(result.Value)
+            : Unauthorized(result.Error);
     }
 
     [AllowAnonymous]
@@ -31,11 +33,13 @@ public sealed class AuthController(ISender sender) : ControllerBase
         [FromBody] RegisterRequest request,
         CancellationToken ct)
     {
-        var created = await sender.Send(
+        var result = await sender.Send(
         new RegisterCommand(request.Email, request.Password, request.DisplayName),
         ct);
 
-        return created ? Created() : BadRequest();
+        return result.IsSuccess
+            ? Created()
+            : BadRequest(result.Error);
     }
 
     [Authorize]

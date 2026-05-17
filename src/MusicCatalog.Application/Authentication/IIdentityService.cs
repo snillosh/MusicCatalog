@@ -1,3 +1,5 @@
+using MusicCatalog.Application.Common.Results;
+
 namespace MusicCatalog.Application.Authentication;
 
 public interface IIdentityService
@@ -6,8 +8,8 @@ public interface IIdentityService
         string email,
         string password,
         CancellationToken cancellationToken = default);
-    
-    Task<bool> CreateUserAsync(
+
+    Task<Result> CreateUserAsync(
         string email,
         string password,
         string? displayName,
