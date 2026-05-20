@@ -9,9 +9,12 @@ public class ArtistApiClient(IHttpClientFactory httpClientFactory, IAccessTokenS
 {
     private readonly HttpClient _http = httpClientFactory.CreateClient("MusicCatalogApi");
 
-    public async Task<PagedResult<ArtistDto>> GetArtistsAsync(CancellationToken cancellationToken = default)
+    public async Task<PagedResult<ArtistDto>> GetArtistsAsync(
+        int page = 1,
+        int pageSize = 50,
+        CancellationToken cancellationToken = default)
     {
-        var url = "api/artists";
+        var url = $"api/artists?page={page}&pageSize={pageSize}";
 
         var result = await _http.GetFromJsonAsync<PagedResult<ArtistDto>>(url, cancellationToken);
 
@@ -27,7 +30,7 @@ public class ArtistApiClient(IHttpClientFactory httpClientFactory, IAccessTokenS
             _http.DefaultRequestHeaders.Authorization =
                 new AuthenticationHeaderValue("Bearer", token);
         }
-        
+
         var response = await _http.PostAsJsonAsync(
         "api/artists",
         request,
