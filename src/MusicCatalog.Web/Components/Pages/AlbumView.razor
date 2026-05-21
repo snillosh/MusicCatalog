@@ -2,8 +2,10 @@
 @using MusicCatalog.ApiClient
 @using MusicCatalog.Contracts.Albums
 @using MusicCatalog.Contracts.Common.Paging
+@using MusicCatalog.Contracts.Tracks
 
 @inject IAlbumApiClient AlbumApiClient
+@inject ITrackApiClient TrackApiClient
 
 <div class="container mt-6">
     <div class="row">
@@ -74,6 +76,20 @@
                         <p>Title: @_selectedAlbum.Title</p>
                         <p>Artist: @_selectedAlbum.ArtistName</p>
                         <p>Release Year: @_selectedAlbum.ReleaseYear</p>
+
+                        @if (_tracks is null)
+                        {
+                            <p>Loading...</p>
+                        }
+                        else
+                        {
+                            <ol>
+                                @foreach (var track in _tracks)
+                                {
+                                    <li>@track.ToString()</li>
+                                }
+                            </ol>
+                        }
                     }
                 </div>
             </div>
@@ -82,8 +98,9 @@
 </div>
 
 @code {
-    private PagedResult<AlbumListItemDto> _dbAlbums;
-    private AlbumListItemDto _selectedAlbum;
+    private PagedResult<AlbumListItemDto>? _dbAlbums;
+    private AlbumListItemDto? _selectedAlbum;
+    private IReadOnlyList<TrackDto>? _tracks;
 
     protected async override Task OnInitializedAsync()
     {
@@ -107,5 +124,7 @@
         AlbumListItemDto album)
     {
         _selectedAlbum = album;
+
+        _tracks = await TrackApiClient.GetTracksByAlbumIdAsync(album.Id);
     }
 }

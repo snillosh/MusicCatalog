@@ -40,4 +40,20 @@ public class TrackApiClient(IHttpClientFactory httpClientFactory, IAccessTokenSt
 
         return track ?? throw new InvalidOperationException("API returned an empty track response.");
     }
+    public async Task<IReadOnlyList<TrackDto>> GetTracksByAlbumIdAsync(Guid albumId, CancellationToken ct = default)
+    {
+        var token = await tokenStore.GetAccessTokenAsync();
+
+        if (!string.IsNullOrWhiteSpace(token))
+        {
+            _http.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", token);
+        }
+
+        var url = $"api/albums/{albumId}/tracks";
+
+        var result = await _http.GetFromJsonAsync<IReadOnlyList<TrackDto>>(url, ct);
+
+        return result ?? [];
+    }
 }
