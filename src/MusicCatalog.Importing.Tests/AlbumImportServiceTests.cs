@@ -44,7 +44,7 @@ public class AlbumImportServiceTests
             new("She Looked Like Me!", 1, 187), new("Killing Time", 2, 225)
         });
 
-        _artistApiClient.GetArtistsAsync(Arg.Any<CancellationToken>())
+        _artistApiClient.GetArtistsAsync()
             .Returns(
             new PagedResult<ArtistDto>(
             new[]
@@ -101,7 +101,7 @@ public class AlbumImportServiceTests
         "2024",
         new List<TrackPreview>());
 
-        _artistApiClient.GetArtistsAsync(Arg.Any<CancellationToken>())
+        _artistApiClient.GetArtistsAsync()
             .Returns(
             new PagedResult<ArtistDto>(
             Array.Empty<ArtistDto>(),
@@ -149,7 +149,7 @@ public class AlbumImportServiceTests
         "Unknown",
         new List<TrackPreview>());
 
-        _artistApiClient.GetArtistsAsync(Arg.Any<CancellationToken>())
+        _artistApiClient.GetArtistsAsync()
             .Returns(
             new PagedResult<ArtistDto>(
             new[]
@@ -189,7 +189,7 @@ public class AlbumImportServiceTests
         "2024",
         new List<TrackPreview>());
 
-        _artistApiClient.GetArtistsAsync(Arg.Any<CancellationToken>())
+        _artistApiClient.GetArtistsAsync()
             .Returns(
             new PagedResult<ArtistDto>(
             new[]
