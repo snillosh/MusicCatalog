@@ -39,18 +39,15 @@ public class AlbumImportServiceTests
         "Imaginal Disk",
         "magdalena bay",
         "2024",
-        new List<TrackPreview>
-        {
-            new("She Looked Like Me!", 1, 187), new("Killing Time", 2, 225)
-        });
+        [
+            new TrackPreview("She Looked Like Me!", 1, 187),
+            new TrackPreview("Killing Time", 2, 225)
+        ]);
 
         _artistApiClient.GetArtistsAsync()
             .Returns(
             new PagedResult<ArtistDto>(
-            new[]
-            {
-                artist
-            },
+            [artist],
             1,
             1,
             10));
@@ -99,12 +96,12 @@ public class AlbumImportServiceTests
         "Imaginal Disk",
         "Magdalena Bay",
         "2024",
-        new List<TrackPreview>());
+        []);
 
         _artistApiClient.GetArtistsAsync()
             .Returns(
             new PagedResult<ArtistDto>(
-            Array.Empty<ArtistDto>(),
+            [],
             0,
             1,
             10));
@@ -147,15 +144,12 @@ public class AlbumImportServiceTests
         "Imaginal Disk",
         "Magdalena Bay",
         "Unknown",
-        new List<TrackPreview>());
+        []);
 
         _artistApiClient.GetArtistsAsync()
             .Returns(
             new PagedResult<ArtistDto>(
-            new[]
-            {
-                artist
-            },
+            [artist],
             1,
             1,
             10));
@@ -187,15 +181,12 @@ public class AlbumImportServiceTests
         "Imaginal Disk",
         "Magdalena Bay",
         "2024",
-        new List<TrackPreview>());
+        []);
 
         _artistApiClient.GetArtistsAsync()
             .Returns(
             new PagedResult<ArtistDto>(
-            new[]
-            {
-                artist
-            },
+            [artist],
             1,
             1,
             10));
