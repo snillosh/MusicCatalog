@@ -15,7 +15,7 @@ public sealed class AlbumImportService(
         AlbumImportPreview selectedAlbum,
         CancellationToken cancellationToken = default)
     {
-        var artists = await artistApiClient.GetArtistsAsync(cancellationToken);
+        var artists = await artistApiClient.GetArtistsAsync(cancellationToken: cancellationToken);
 
         var artist = artists.Items.FirstOrDefault(x =>
             string.Equals(x.Name, selectedAlbum.ArtistName, StringComparison.OrdinalIgnoreCase));

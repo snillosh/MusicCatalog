@@ -1,0 +1,108 @@
+@page "/artist-view"
+@using MusicCatalog.ApiClient
+@using MusicCatalog.Contracts.Artists
+@using MusicCatalog.Contracts.Common.Paging
+
+@inject IArtistApiClient ArtistApiClient
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h3>Artist view</h3>
+
+                    @if (_artists is null)
+                    {
+                        <p>Loading...</p>
+                    }
+                    else
+                    {
+                        <ul class="list-group mb-3">
+                            @foreach (var artist in _artists.Items)
+                            {
+                                <button class="list-group-item list-group-item-action"
+                                        @onclick="() => SelectArtist(artist)">
+                                    <h4>@artist.Name</h4>
+                                </button>
+                            }
+                        </ul>
+
+                        <nav>
+                            <ul class="pagination">
+                                <li class="page-item @(_artists.Page <= 1 ? "disabled" : "")">
+                                    <button class="page-link" @onclick="() => LoadPage(_artists.Page - 1)">
+                                        Previous
+                                    </button>
+                                </li>
+
+                                @for (var i = 1; i <= _artists.TotalPages; i++)
+                                {
+                                    var pageNumber = i;
+
+                                    <li class="page-item @(pageNumber == _artists.Page ? "active" : "")">
+                                        <button class="page-link" @onclick="() => LoadPage(pageNumber)">
+                                            @pageNumber
+                                        </button>
+                                    </li>
+                                }
+
+                                <li class="page-item @(_artists.Page >= _artists.TotalPages ? "disabled" : "")">
+                                    <button class="page-link" @onclick="() => LoadPage(_artists.Page + 1)">
+                                        Next
+                                    </button>
+                                </li>
+                            </ul>
+                        </nav>
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h3>Album details</h3>
+
+                    @if (_selectedArtist is null)
+                    {
+                        <h3>Please selected an album to view details.</h3>
+                    }
+                    else
+                    {
+                        <p>Name: @_selectedArtist.Name</p>
+                        <p>Country: @_selectedArtist.Country</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private PagedResult<ArtistDto> _artists;
+    private ArtistDto _selectedArtist;
+
+    protected async override Task OnInitializedAsync()
+    {
+        await LoadPage(1);
+
+        await base.OnInitializedAsync();
+    }
+
+    private async Task LoadPage(
+        int page)
+    {
+        if (page < 1)
+        {
+            return;
+        }
+
+        _artists = await ArtistApiClient.GetArtistsAsync(page);
+    }
+
+    private async Task SelectArtist(
+        ArtistDto album)
+    {
+        _selectedArtist = album;
+    }
+}

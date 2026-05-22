@@ -8,4 +8,6 @@ public interface ITrackApiClient
         Guid albumId,
         CreateTrackRequest request,
         CancellationToken ct = default);
+
+    Task<IReadOnlyList<TrackDto>> GetTracksByAlbumIdAsync(Guid albumId, CancellationToken ct = default);
 }
