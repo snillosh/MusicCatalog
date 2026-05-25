@@ -7,13 +7,12 @@ namespace MusicCatalog.ExternalMetadata.MusicBrainz.Mapping;
 
 internal static class MusicBrainzMapper
 {
-    public static IReadOnlyList<AlbumSearchResult> ToAlbumSearchResults(
+    public static IReadOnlyList<AlbumGroupSearchResult> ToAlbumGroupSearchResults(
         this ISearchResults<ISearchResult<IReleaseGroup>> releaseGroups)
     {
         return releaseGroups.Results
-            .Select(x => new AlbumSearchResult(
+            .Select(x => new AlbumGroupSearchResult(
             x.Item.Id,
-            x.Item.Releases?.FirstOrDefault()?.Id ?? Guid.Empty,
             x.Item.Title,
             x.Item.ArtistCredit.FirstOrDefault()?.Name ?? "Unknown Artist",
             x.Item.FirstReleaseDate?.Year.ToString()))
