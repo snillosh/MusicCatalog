@@ -114,7 +114,7 @@
     private string? statusMessage;
     public string? CoverImageUrl { get; set; }
 
-    private IReadOnlyList<AlbumSearchResult> searchResults = [];
+    private IReadOnlyList<AlbumGroupSearchResult> searchResults = [];
     private AlbumImportPreview? selectedAlbum;
 
     private async Task SearchAlbums()
@@ -124,17 +124,17 @@
         statusMessage = null;
         isLoading = true;
 
-        searchResults = await MusicService.FindSimpleAlbumsAsync(searchTerm);
+        searchResults = await MusicService.FindSimpleAlbumGroupsAsync(searchTerm);
 
         isLoading = false;
     }
 
     private async Task SelectAlbum(
-        AlbumSearchResult album)
+        AlbumGroupSearchResult albumGroup)
     {
         statusMessage = "Loading full album details...";
 
-        selectedAlbum = await MusicService.LookupAlbumImportPreviewAsync(album.ReleaseId);
+        selectedAlbum = await MusicService.LookupAlbumImportPreviewAsync(albumGroup.ReleaseGroupId);
         CoverImageUrl = $"https://coverartarchive.org/release/{selectedAlbum.MusicBrainzReleaseId}/front-250";
 
         statusMessage = null;

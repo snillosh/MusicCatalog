@@ -4,7 +4,7 @@ namespace MusicCatalog.ExternalMetadata;
 
 public interface IMusicMetadataService
 {
-    public Task<IReadOnlyList<AlbumSearchResult>> FindSimpleAlbumsAsync(string query);
+    public Task<IReadOnlyList<AlbumGroupSearchResult>> FindSimpleAlbumGroupsAsync(string query);
 
-    public Task<AlbumImportPreview> LookupAlbumImportPreviewAsync(Guid releaseId);
+    public Task<AlbumImportPreview> LookupAlbumImportPreviewAsync(Guid releaseGroupId);
 }

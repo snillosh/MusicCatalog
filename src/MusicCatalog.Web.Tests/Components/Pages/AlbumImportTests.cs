@@ -53,13 +53,12 @@ public class AlbumImportTests
     {
         var releaseId = Guid.NewGuid();
 
-        _musicService.FindSimpleAlbumsAsync("Imaginal Disk")
+        _musicService.FindSimpleAlbumGroupsAsync("Imaginal Disk")
             .Returns(
-            new List<AlbumSearchResult>
+            new List<AlbumGroupSearchResult>
             {
                 new(
                 Guid.NewGuid(),
-                releaseId,
                 "Imaginal Disk",
                 "Magdalena Bay",
                 "2024")
@@ -76,7 +75,7 @@ public class AlbumImportTests
         component.Markup.Should().Contain("2024");
 
         _musicService.Received(1)
-            .FindSimpleAlbumsAsync("Imaginal Disk");
+            .FindSimpleAlbumGroupsAsync("Imaginal Disk");
     }
 
     [Test]
@@ -84,12 +83,11 @@ public class AlbumImportTests
     {
         var releaseId = Guid.NewGuid();
 
-        _musicService.FindSimpleAlbumsAsync("Imaginal Disk")
+        _musicService.FindSimpleAlbumGroupsAsync("Imaginal Disk")
             .Returns(
-            new List<AlbumSearchResult>
+            new List<AlbumGroupSearchResult>
             {
                 new(
-                Guid.NewGuid(),
                 releaseId,
                 "Imaginal Disk",
                 "Magdalena Bay",
@@ -131,12 +129,11 @@ public class AlbumImportTests
     {
         var releaseId = Guid.NewGuid();
 
-        _musicService.FindSimpleAlbumsAsync("Imaginal Disk")
+        _musicService.FindSimpleAlbumGroupsAsync("Imaginal Disk")
             .Returns(
-            new List<AlbumSearchResult>
+            new List<AlbumGroupSearchResult>
             {
                 new(
-                Guid.NewGuid(),
                 releaseId,
                 "Imaginal Disk",
                 "Magdalena Bay",
@@ -182,12 +179,11 @@ public class AlbumImportTests
             new("She Looked Like Me!", 1, 187)
         });
 
-        _musicService.FindSimpleAlbumsAsync("Imaginal Disk")
+        _musicService.FindSimpleAlbumGroupsAsync("Imaginal Disk")
             .Returns(
-            new List<AlbumSearchResult>
+            new List<AlbumGroupSearchResult>
             {
                 new(
-                Guid.NewGuid(),
                 releaseId,
                 "Imaginal Disk",
                 "Magdalena Bay",
