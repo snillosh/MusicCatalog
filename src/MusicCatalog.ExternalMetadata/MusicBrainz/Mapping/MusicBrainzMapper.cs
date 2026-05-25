@@ -19,22 +19,11 @@ internal static class MusicBrainzMapper
             .ToList();
     }
 
-    public static AlbumImportPreview ToAlbumImportPreview(
-        this IRelease release)
+    public static AlbumImportPreview ToAlbumImportPreview(this IRelease release)
     {
         var artistName = release.ArtistCredit.FirstOrDefault()?.Name ?? "Unknown Artist";
         var releaseYear = release.Date?.Year.ToString();
-
-        var tracks = release.Media
-            .SelectMany(x => x.Tracks)
-            .Select(x =>
-            {
-                var trackNumber = x.Position ?? 0;
-                var duration = x.Length.GetValueOrDefault().TotalSeconds;
-
-                return new TrackPreview(x.Title, trackNumber, (int)duration);
-            })
-            .ToList();
+        var tracks = CreateTrackPreviews(release.Media);
 
         return new AlbumImportPreview(
         release.Id,
@@ -43,4 +32,44 @@ internal static class MusicBrainzMapper
         releaseYear,
         tracks);
     }
+
+    private static List<TrackPreview> CreateTrackPreviews(IReadOnlyList<IMedium> media) => media.Count > 1
+        ? CreateMultiDiscTrackPreviews(media)
+        : CreateSingleDiscTrackPreviews(media[0]);
+
+    private static List<TrackPreview> CreateMultiDiscTrackPreviews(IReadOnlyList<IMedium> media)
+    {
+        var tracks = media.SelectMany(x => x.Tracks).ToList();
+        var previews = new List<TrackPreview>();
+
+        for (var i = 0; i < tracks.Count; i++)
+        {
+            var track = tracks[i];
+
+            previews.Add(
+            new TrackPreview(
+            track.Title,
+            i + 1,
+            track.GetDurationInSeconds()));
+        }
+
+        return previews;
+    }
+
+    private static List<TrackPreview> CreateSingleDiscTrackPreviews(IMedium? medium)
+    {
+        if (medium is null)
+        {
+            return [];
+        }
+
+        return medium.Tracks
+            .Select(track => new TrackPreview(
+            track.Title,
+            track.Position ?? 0,
+            track.GetDurationInSeconds()))
+            .ToList();
+    }
+
+    private static int GetDurationInSeconds(this ITrack track) => (int)track.Length.GetValueOrDefault().TotalSeconds;
 }

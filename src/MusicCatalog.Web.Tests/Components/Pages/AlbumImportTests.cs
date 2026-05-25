@@ -88,7 +88,7 @@ public class AlbumImportTests
             new List<AlbumGroupSearchResult>
             {
                 new(
-                Guid.NewGuid(),
+                releaseId,
                 "Imaginal Disk",
                 "Magdalena Bay",
                 "2024")
@@ -134,7 +134,7 @@ public class AlbumImportTests
             new List<AlbumGroupSearchResult>
             {
                 new(
-                Guid.NewGuid(),
+                releaseId,
                 "Imaginal Disk",
                 "Magdalena Bay",
                 "2024")
@@ -184,7 +184,7 @@ public class AlbumImportTests
             new List<AlbumGroupSearchResult>
             {
                 new(
-                Guid.NewGuid(),
+                releaseId,
                 "Imaginal Disk",
                 "Magdalena Bay",
                 "2024")
