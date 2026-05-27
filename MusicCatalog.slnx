@@ -12,6 +12,7 @@
         <File Path=".editorconfig" />
         <File Path=".github\workflows\dotnet.yml" />
         <File Path=".gitignore" />
+        <File Path="README.md" />
     </Folder>
     <Folder Name="/src/">
         <Project Path="src/MusicCatalog.Api.Tests/MusicCatalog.Api.Tests.csproj" />
