@@ -9,7 +9,7 @@ import {Notifications} from "@mantine/notifications";
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-      <MantineProvider>
+      <MantineProvider defaultColorScheme="dark" theme={{primaryColor: 'green'}}>
           <Notifications />
           <App />
       </MantineProvider>
