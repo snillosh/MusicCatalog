@@ -1,24 +1,22 @@
-import type {Track} from "../models/track.ts";
 import {Avatar, Card, Container, Group, NavLink, Stack, Text} from "@mantine/core";
 import albumCover from "../assets/ImageCompressed.png";
+import type {TrackDto} from "../api/tracks.ts";
 
 type ChildListProps = {
-    selectedTrackId: number | undefined;
-    tracks: Track[] | undefined;
-    onSelectTrack: (trackId: number) => void;
+    selectedTrackId: string | undefined;
+    tracks: TrackDto[] | undefined;
+    onSelectTrack: (trackId: string) => void;
 }
 
-export function ChildList({tracks, selectedTrackId, onSelectTrack} : ChildListProps)
-{
-    if (tracks === undefined)
-    {
+export function ChildList({tracks, selectedTrackId, onSelectTrack}: ChildListProps) {
+    if (tracks === undefined) {
         return <Container>
             <Text>Please select an album to view it's tracks</Text>
         </Container>
     }
 
     return <Container>
-        <Card p="lg" bg="dark.8" mt="20">
+        <Card p="lg" bg="dark.8" mt="20" shadow="lg">
             <Stack gap={4}>
                 {tracks.map((track) => (
                     <NavLink
@@ -32,9 +30,9 @@ export function ChildList({tracks, selectedTrackId, onSelectTrack} : ChildListPr
                                     radius="sm"
                                 />
                                 <div>
-                                    <Text>{track.name}</Text>
+                                    <Text>{track.trackNumber + ". " + track.title}</Text>
                                     <Text size="sm" c="dimmed">
-                                        {track.duration}
+                                        {track.durationSeconds}
                                     </Text>
                                 </div>
                             </Group>

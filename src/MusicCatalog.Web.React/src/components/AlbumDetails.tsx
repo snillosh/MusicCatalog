@@ -1,10 +1,10 @@
 import {Card, Center, Container, Image, Stack, Text, Title} from "@mantine/core";
 import albumCover from '../assets/ImageCompressed.png';
-import type {Album} from "../models/album.ts";
+import type {AlbumListItem} from "../api/albums.ts";
 
 type AlbumDetailsProps = {
-    albums: Album[];
-    selectedAlbumId: number | undefined;
+    albums: AlbumListItem[];
+    selectedAlbumId: string | undefined;
 }
 
 export function AlbumDetails({albums, selectedAlbumId} : AlbumDetailsProps)
@@ -21,7 +21,7 @@ export function AlbumDetails({albums, selectedAlbumId} : AlbumDetailsProps)
     }
 
     return <Container p="lg">
-        <Card>
+        <Card shadow="lg">
             <Center m="lg">
                 <Stack align={"center"} gap={3}>
                     <Image
@@ -30,8 +30,8 @@ export function AlbumDetails({albums, selectedAlbumId} : AlbumDetailsProps)
                         h={400}
                         radius="sm"/>
 
-                    <Title order={1}>{album.name}</Title>
-                    <Text>{album.artist}</Text>
+                    <Title order={1}>{album.title}</Title>
+                    <Text>{album.artistName}</Text>
                 </Stack>
             </Center>
 
@@ -39,7 +39,7 @@ export function AlbumDetails({albums, selectedAlbumId} : AlbumDetailsProps)
                 <Stack>
                     <Title order={2}>Details:</Title>
                     <Text>Release Year: {album.releaseYear}</Text>
-                    <Text>Rating: {album.rating}</Text>
+                    <Text>Rating: {album.releaseYear}</Text>
                 </Stack>
             </Card>
         </Card>

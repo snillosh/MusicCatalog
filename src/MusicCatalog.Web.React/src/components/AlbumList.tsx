@@ -1,23 +1,22 @@
-import type {Album} from "../models/album.ts";
 import {Avatar, Group, Stack, Text, NavLink, Card, Container} from "@mantine/core";
 import albumCover from '../assets/ImageCompressed.png';
+import {type AlbumListItem} from "../api/albums.ts";
 
 interface AlbumListProps {
-    albums: Album[];
-    selectedId?: number;
-    onSelect: (id: number) => void;
+    albums: AlbumListItem[];
+    selectedId?: string;
+    onSelect: (id: string) => void;
 }
 
 export function AlbumList({
                               albums,
                               selectedId,
-                              onSelect,
+                              onSelect
                           }: AlbumListProps) {
-
 
     return (
         <Container>
-            <Card p="lg" bg="dark.8" mt="20">
+            <Card p="lg" bg="dark.8" mt="20" shadow="lg">
                 <Stack gap={4}>
                     {albums.map((album) => (
                         <NavLink
@@ -31,9 +30,9 @@ export function AlbumList({
                                         radius="sm"
                                     />
                                     <div>
-                                        <Text>{album.name}</Text>
+                                        <Text>{album.title}</Text>
                                         <Text size="sm" c="dimmed">
-                                            {album.artist}
+                                            {album.artistName}
                                         </Text>
                                     </div>
                                 </Group>
