@@ -24,7 +24,7 @@ public class UpdateAlbumHandlerTests
     [Test]
     public async Task Handle_WithValidRequest_ReturnsAlbum()
     {
-        var album = new Album(Guid.NewGuid(), "Imaginal Disk", 2024);
+        var album = new Album(Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), "Imaginal Disk", 2024);
 
         var request = new UpdateAlbumCommand(album.Id, "NewTitle", 2025);
 
@@ -63,7 +63,7 @@ public class UpdateAlbumHandlerTests
     [Test]
     public async Task Handle_WithDuplicateName_ReturnsNull()
     {
-        var album = new Album(Guid.NewGuid(), "Imaginal Disk", 2024);
+        var album = new Album(Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), "Imaginal Disk", 2024);
 
         var request = new UpdateAlbumCommand(Guid.NewGuid(), "NewTitle", 2025);
 

@@ -22,7 +22,7 @@ public class GetAlbumMetadataByIdHandlerTests
     [Test]
     public async Task Handle_WithValidId_ReturnsAlbum()
     {
-        var album = new Album(Guid.NewGuid(), "Imaginal Disk", 2024);
+        var album = new Album(Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), "Imaginal Disk", 2024);
         var dto = new AlbumDto(album.Id, album.ArtistId, album.Title, album.ReleaseYear);
         var request = new GetAlbumByIdQuery(album.Id);
 

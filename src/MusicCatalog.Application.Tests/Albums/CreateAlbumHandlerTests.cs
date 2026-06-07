@@ -25,7 +25,7 @@ public class CreateAlbumHandlerTests
     public async Task Handle_WithValidAlbum_ReturnsSuccess()
     {
         var artist = new Artist("Magdalena Bay", "US");
-        var request = new CreateAlbumCommand(artist.Id, "  Imaginal Disk  ", 2024);
+        var request = new CreateAlbumCommand(artist.Id, Guid.NewGuid(), Guid.NewGuid(), "  Imaginal Disk  ", 2024);
 
         _artistRepository.GetByIdAsync(artist.Id, Arg.Any<CancellationToken>())
             .Returns(artist);
@@ -53,7 +53,7 @@ public class CreateAlbumHandlerTests
     {
         var artistId = Guid.NewGuid();
 
-        var request = new CreateAlbumCommand(artistId, "  Imaginal Disk  ", 2024);
+        var request = new CreateAlbumCommand(artistId, Guid.NewGuid(), Guid.NewGuid(), "  Imaginal Disk  ", 2024);
 
         _artistRepository.GetByIdAsync(artistId, Arg.Any<CancellationToken>())
             .Returns((Artist?)null);
@@ -77,7 +77,7 @@ public class CreateAlbumHandlerTests
     public async Task Handle_WithDuplicateTitle_ReturnsFailure()
     {
         var artist = new Artist("Magdalena Bay", "US");
-        var request = new CreateAlbumCommand(artist.Id, "Imaginal Disk", 2024);
+        var request = new CreateAlbumCommand(artist.Id, Guid.NewGuid(), Guid.NewGuid(), "Imaginal Disk", 2024);
 
         _artistRepository.GetByIdAsync(artist.Id, Arg.Any<CancellationToken>())
             .Returns(artist);
