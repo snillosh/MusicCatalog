@@ -2,6 +2,7 @@
     <ItemGroup>
         <PackageReference Include="MetaBrainz.MusicBrainz"/>
         <PackageReference Include="MetaBrainz.MusicBrainz.CoverArt"/>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions"/>
     </ItemGroup>
 
     <ItemGroup>

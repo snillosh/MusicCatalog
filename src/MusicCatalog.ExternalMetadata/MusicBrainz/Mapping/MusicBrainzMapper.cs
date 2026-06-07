@@ -19,8 +19,13 @@ internal static class MusicBrainzMapper
             .ToList();
     }
 
-    public static AlbumImportPreview ToAlbumImportPreview(this IRelease release)
+    public static AlbumImportPreview? ToAlbumImportPreview(this IRelease? release)
     {
+        if (release is null)
+        {
+            return null;
+        }
+
         var artistName = release.ArtistCredit.FirstOrDefault()?.Name ?? "Unknown Artist";
         var releaseYear = release.Date?.Year.ToString();
         var tracks = CreateTrackPreviews(release.Media);

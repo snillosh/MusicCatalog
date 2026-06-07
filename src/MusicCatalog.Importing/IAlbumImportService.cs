@@ -4,5 +4,5 @@ namespace MusicCatalog.Importing;
 
 public interface IAlbumImportService
 {
-    Task ImportAlbumAsync(AlbumImportPreview selectedAlbum, CancellationToken cancellationToken = default);
+    Task<AlbumDto> ImportAlbumAsync(AlbumImportPreview selectedAlbum, CancellationToken cancellationToken = default);
 }

@@ -1,4 +1,4 @@
-import {Avatar, Group, Stack, Text, NavLink, Card, Container} from "@mantine/core";
+import {Avatar, Card, Container, Group, NavLink, Stack, Text} from "@mantine/core";
 import albumCover from '../assets/ImageCompressed.png';
 import {type AlbumListItem} from "../api/albums.ts";
 
@@ -20,6 +20,7 @@ export function AlbumList({
                 <Stack gap={4}>
                     {albums.map((album) => (
                         <NavLink
+                            key={album.id}
                             active={selectedId === album.id}
                             onClick={() => onSelect(album.id)}
                             label={

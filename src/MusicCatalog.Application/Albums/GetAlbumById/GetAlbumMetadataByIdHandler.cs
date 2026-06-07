@@ -3,7 +3,7 @@ using MusicCatalog.Contracts.Albums;
 
 namespace MusicCatalog.Application.Albums.GetAlbumById;
 
-public class GetAlbumByIdHandler(IAlbumRepository repository) : IRequestHandler<GetAlbumByIdQuery, AlbumDto?>
+public class GetAlbumMetadataByIdHandler(IAlbumRepository repository) : IRequestHandler<GetAlbumByIdQuery, AlbumDto?>
 {
     public async Task<AlbumDto?> Handle(GetAlbumByIdQuery request, CancellationToken cancellationToken)
     {

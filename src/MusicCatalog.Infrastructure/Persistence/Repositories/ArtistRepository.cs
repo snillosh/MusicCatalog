@@ -36,6 +36,9 @@ public class ArtistRepository(MusicCatalogDbContext db) : IArtistRepository
     public async Task<Artist?> GetByIdTrackedAsync(Guid id, CancellationToken ct)
         => await db.Artists.FirstOrDefaultAsync(a => a.Id == id, ct);
 
+    public async Task<Artist?> GetByNameTrackedAsync(string artistName, CancellationToken ct) =>
+        await db.Artists.FirstOrDefaultAsync(a => a.Name == artistName, ct);
+
     public async Task AddAsync(Artist artist, CancellationToken ct)
     {
         db.Artists.Add(artist);

@@ -10,14 +10,18 @@ public sealed class MusicBrainzMetadataService : IMusicMetadataService, IDisposa
 
     public void Dispose() => _query.Close();
 
-    public async Task<IReadOnlyList<AlbumGroupSearchResult>> FindSimpleAlbumGroupsAsync(string query)
+    public async Task<IReadOnlyList<AlbumGroupSearchResult>> FindSimpleAlbumGroupsAsync(
+        string query,
+        CancellationToken ct = default)
     {
-        var releaseGroups = await _query.FindReleaseGroupsAsync(query, simple: true);
+        var releaseGroups = await _query.FindReleaseGroupsAsync(query, simple: true, cancellationToken: ct);
 
         return releaseGroups.ToAlbumGroupSearchResults();
     }
 
-    public async Task<AlbumImportPreview> LookupAlbumImportPreviewAsync(Guid releaseGroupId)
+    public async Task<AlbumImportPreview?> LookupAlbumImportPreviewAsync(
+        Guid releaseGroupId,
+        CancellationToken ct = default)
     {
         var browseResults = await _query.BrowseReleaseGroupReleasesAsync(
         releaseGroupId,
@@ -25,8 +29,6 @@ public sealed class MusicBrainzMetadataService : IMusicMetadataService, IDisposa
 
         var releaseResults = browseResults.Results.GetMostSuitableRelease();
 
-        return releaseResults is null
-            ? throw new InvalidOperationException($"Could not find any valid media for {releaseGroupId}.")
-            : releaseResults.ToAlbumImportPreview();
+        return releaseResults.ToAlbumImportPreview();
     }
 }

@@ -9,5 +9,6 @@
     <ItemGroup>
         <ProjectReference Include="..\MusicCatalog.Contracts\MusicCatalog.Contracts.csproj"/>
         <ProjectReference Include="..\MusicCatalog.Domain\MusicCatalog.Domain.csproj"/>
+        <ProjectReference Include="..\MusicCatalog.ExternalMetadata\MusicCatalog.ExternalMetadata.csproj"/>
     </ItemGroup>
 </Project>

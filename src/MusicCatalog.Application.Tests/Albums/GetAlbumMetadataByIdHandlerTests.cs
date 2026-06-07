@@ -9,14 +9,14 @@ using NUnit.Framework;
 namespace MusicCatalog.Application.Tests.Albums;
 
 [TestFixture]
-public class GetAlbumByIdHandlerTests
+public class GetAlbumMetadataByIdHandlerTests
 {
     private readonly IAlbumRepository _albumRepository = Substitute.For<IAlbumRepository>();
-    private readonly GetAlbumByIdHandler _handler;
+    private readonly GetAlbumMetadataByIdHandler _handler;
 
-    public GetAlbumByIdHandlerTests()
+    public GetAlbumMetadataByIdHandlerTests()
     {
-        _handler = new GetAlbumByIdHandler(_albumRepository);
+        _handler = new GetAlbumMetadataByIdHandler(_albumRepository);
     }
 
     [Test]

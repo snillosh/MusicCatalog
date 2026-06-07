@@ -11,7 +11,7 @@ public sealed class AlbumImportService(
     ITrackApiClient trackApiClient) : IAlbumImportService
 {
 
-    public async Task ImportAlbumAsync(
+    public async Task<AlbumDto> ImportAlbumAsync(
         AlbumImportPreview selectedAlbum,
         CancellationToken cancellationToken = default)
     {
@@ -43,5 +43,7 @@ public sealed class AlbumImportService(
             track.DurationSeconds),
             cancellationToken);
         }
+
+        return album;
     }
 }

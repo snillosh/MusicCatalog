@@ -1,13 +1,14 @@
 using Microsoft.OpenApi;
 using MusicCatalog.Api.Middleware;
 using MusicCatalog.Application;
+using MusicCatalog.ExternalMetadata;
 using MusicCatalog.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddHealthChecks();
 builder.Services.AddControllers();
-builder.Services.AddApplication().AddInfrastructure(builder.Configuration);
+builder.Services.AddApplication().AddInfrastructure(builder.Configuration).AddMetadata();
 builder.Services.AddTransient<ExceptionHandlingMiddleware>();
 
 builder.Services.AddSwaggerGen(options =>
