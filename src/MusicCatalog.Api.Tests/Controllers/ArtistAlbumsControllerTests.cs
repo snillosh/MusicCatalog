@@ -32,8 +32,8 @@ public class ArtistAlbumsControllerTests
 
         var albums = new List<AlbumListItemDto>
         {
-            new(Guid.NewGuid(), artistId, artistName, "Visions", 2012),
-            new(Guid.NewGuid(), artistId, artistName, "Art Angels", 2015)
+            new(Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), artistId, artistName, "Visions", 2012),
+            new(Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), artistId, artistName, "Art Angels", 2015)
 
         };
 
@@ -70,7 +70,7 @@ public class ArtistAlbumsControllerTests
     {
         var artistId = Guid.NewGuid();
 
-        var request = new CreateAlbumRequest("Art Angels", 2015);
+        var request = new CreateAlbumRequest(Guid.NewGuid(), Guid.NewGuid(), "Art Angels", 2015);
         var album = new AlbumDto(Guid.NewGuid(), artistId, "Art Angels", 2015);
 
         _sender.Send(Arg.Any<CreateAlbumCommand>(), Arg.Any<CancellationToken>())
@@ -92,7 +92,7 @@ public class ArtistAlbumsControllerTests
     {
         var artistId = Guid.NewGuid();
 
-        var request = new CreateAlbumRequest("Art Angels", 2015);
+        var request = new CreateAlbumRequest(Guid.NewGuid(), Guid.NewGuid(), "Art Angels", 2015);
 
         _sender.Send(Arg.Any<CreateAlbumCommand>(), Arg.Any<CancellationToken>())
             .Returns(Result<AlbumDto>.Fail("artists.notFound", "Artist not found."));
@@ -118,7 +118,7 @@ public class ArtistAlbumsControllerTests
     {
         var artistId = Guid.NewGuid();
 
-        var request = new CreateAlbumRequest("Art Angels", 2015);
+        var request = new CreateAlbumRequest(Guid.NewGuid(), Guid.NewGuid(), "Art Angels", 2015);
 
         _sender.Send(Arg.Any<CreateAlbumCommand>(), Arg.Any<CancellationToken>())
             .Returns(Result<AlbumDto>.Fail("albums.duplicate", "That artist already has an album with that title."));

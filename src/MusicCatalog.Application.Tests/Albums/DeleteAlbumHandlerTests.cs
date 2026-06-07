@@ -23,7 +23,7 @@ public class DeleteAlbumHandlerTests
     {
         var artistId = Guid.NewGuid();
 
-        var album = new Album(artistId, "Imaginal Disk", 2024);
+        var album = new Album(artistId, Guid.NewGuid(), Guid.NewGuid(), "Imaginal Disk", 2024);
 
         var request = new DeleteAlbumCommand(album.Id);
 

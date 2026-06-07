@@ -54,7 +54,7 @@ public class TrackRepositoryTests
     public async Task AddAsync_SavesTrack()
     {
         var artist = new Artist("Magdalena Bay", "US");
-        var album = new Album(artist.Id, "Imaginal Disk", 2024);
+        var album = new Album(artist.Id, Guid.NewGuid(), Guid.NewGuid(), "Imaginal Disk", 2024);
         var track = new Track(album.Id, 1, "She Looked Like Me!", 187);
 
         await _db.Artists.AddAsync(artist);
@@ -76,8 +76,8 @@ public class TrackRepositoryTests
     public async Task GetByAlbumIdAsync_ReturnsTracksForAlbumOrderedByTrackNumber()
     {
         var artist = new Artist("Magdalena Bay", "US");
-        var album = new Album(artist.Id, "Imaginal Disk", 2024);
-        var otherAlbum = new Album(artist.Id, "Mercurial World", 2021);
+        var album = new Album(artist.Id, Guid.NewGuid(), Guid.NewGuid(), "Imaginal Disk", 2024);
+        var otherAlbum = new Album(artist.Id, Guid.NewGuid(), Guid.NewGuid(), "Mercurial World", 2021);
 
         var track2 = new Track(album.Id, 2, "Killing Time", 225);
         var track1 = new Track(album.Id, 1, "She Looked Like Me!", 187);
@@ -115,7 +115,7 @@ public class TrackRepositoryTests
     public async Task GetByAlbumIdAsync_ReturnsUntrackedEntities()
     {
         var artist = new Artist("Magdalena Bay", "US");
-        var album = new Album(artist.Id, "Imaginal Disk", 2024);
+        var album = new Album(artist.Id, Guid.NewGuid(), Guid.NewGuid(), "Imaginal Disk", 2024);
         var track = new Track(album.Id, 1, "She Looked Like Me!", 187);
 
         await _db.Artists.AddAsync(artist);
@@ -140,7 +140,7 @@ public class TrackRepositoryTests
     public async Task ExistsTrackNumberAsync_WhenTrackNumberExistsForAlbum_ReturnsTrue()
     {
         var artist = new Artist("Magdalena Bay", "US");
-        var album = new Album(artist.Id, "Imaginal Disk", 2024);
+        var album = new Album(artist.Id, Guid.NewGuid(), Guid.NewGuid(), "Imaginal Disk", 2024);
         var track = new Track(album.Id, 1, "She Looked Like Me!", 187);
 
         await _db.Artists.AddAsync(artist);
@@ -160,8 +160,8 @@ public class TrackRepositoryTests
     public async Task ExistsTrackNumberAsync_WhenTrackNumberExistsForDifferentAlbum_ReturnsFalse()
     {
         var artist = new Artist("Magdalena Bay", "US");
-        var album = new Album(artist.Id, "Imaginal Disk", 2024);
-        var otherAlbum = new Album(artist.Id, "Mercurial World", 2021);
+        var album = new Album(artist.Id, Guid.NewGuid(), Guid.NewGuid(), "Imaginal Disk", 2024);
+        var otherAlbum = new Album(artist.Id, Guid.NewGuid(), Guid.NewGuid(), "Mercurial World", 2021);
         var track = new Track(otherAlbum.Id, 1, "The End", 199);
 
         await _db.Artists.AddAsync(artist);

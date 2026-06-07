@@ -163,6 +163,12 @@ namespace MusicCatalog.Infrastructure.Persistence.Migrations
                     b.Property<Guid>("ArtistId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid>("MusicBrainzReleaseGroupId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("MusicBrainzReleaseId")
+                        .HasColumnType("uuid");
+
                     b.Property<int?>("ReleaseYear")
                         .HasColumnType("integer");
 

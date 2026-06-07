@@ -2,6 +2,7 @@ using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using MusicCatalog.Application.Common.Behaviors;
+using MusicCatalog.Application.Importing;
 
 namespace MusicCatalog.Application;
 
@@ -12,6 +13,7 @@ public static class DependencyInjection
         services.AddMediatR(c => c.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly));
         services.AddValidatorsFromAssembly(typeof(DependencyInjection).Assembly);
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+        services.AddScoped<IAlbumImportService, AlbumImportService>();
         return services;
     }
 }

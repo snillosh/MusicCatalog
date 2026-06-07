@@ -24,7 +24,12 @@ public sealed class CreateAlbumHandler(IArtistRepository artists, IAlbumReposito
             return Result<AlbumDto>.Fail("albums.duplicate", "That artist already has an album with that title.");
         }
 
-        var album = new Album(request.ArtistId, title, request.ReleaseYear);
+        var album = new Album(
+        request.ArtistId,
+        request.musicBrainzReleaseGroupId,
+        request.musicBrainzReleaseId,
+        title,
+        request.ReleaseYear);
 
         await albums.AddAsync(album, ct);
 

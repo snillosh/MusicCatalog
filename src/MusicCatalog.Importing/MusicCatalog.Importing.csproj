@@ -1,6 +1,0 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-    <ItemGroup>
-        <ProjectReference Include="..\MusicCatalog.ApiClient\MusicCatalog.ApiClient.csproj"/>
-        <ProjectReference Include="..\MusicCatalog.Contracts\MusicCatalog.Contracts.csproj"/>
-    </ItemGroup>
-</Project>

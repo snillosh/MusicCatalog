@@ -25,7 +25,7 @@ public class CreateTrackHandlerTests
     public async Task Handle_WithValidTrack_ReturnsSuccess()
     {
         var artistId = Guid.NewGuid();
-        var album = new Album(artistId, "Imaginal Disk", 2024);
+        var album = new Album(artistId, Guid.NewGuid(), Guid.NewGuid(), "Imaginal Disk", 2024);
 
         var request = new CreateTrackCommand(album.Id, 1, "  She Looked Like Me!  ", 187);
 
@@ -81,7 +81,7 @@ public class CreateTrackHandlerTests
     public async Task Handle_WithDuplicateTrackNumber_ReturnsFailure()
     {
         var artistId = Guid.NewGuid();
-        var album = new Album(artistId, "Imaginal Disk", 2024);
+        var album = new Album(artistId, Guid.NewGuid(), Guid.NewGuid(), "Imaginal Disk", 2024);
 
         var request = new CreateTrackCommand(album.Id, 1, "  She Looked Like Me!  ", 187);
 

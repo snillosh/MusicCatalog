@@ -1,3 +1,7 @@
 namespace MusicCatalog.Contracts.Albums;
 
-public sealed record CreateAlbumRequest(string Title, int? ReleaseYear);
+public sealed record CreateAlbumRequest(
+    Guid musicBrainzReleaseGroupId,
+    Guid musicBrainzReleaseId,
+    string Title,
+    int? ReleaseYear);

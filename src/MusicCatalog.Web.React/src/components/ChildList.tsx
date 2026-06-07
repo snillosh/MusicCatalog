@@ -20,6 +20,7 @@ export function ChildList({tracks, selectedTrackId, onSelectTrack}: ChildListPro
             <Stack gap={4}>
                 {tracks.map((track) => (
                     <NavLink
+                        key={track.id}
                         active={selectedTrackId === track.id}
                         onClick={() => onSelectTrack(track.id)}
                         label={

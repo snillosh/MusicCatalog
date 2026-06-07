@@ -32,6 +32,8 @@ public class AlbumControllerTests
             new AlbumListItemDto(
             Guid.NewGuid(),
             Guid.NewGuid(),
+            Guid.NewGuid(),
+            Guid.NewGuid(),
             "Grimes",
             "Art Angels",
             2015)

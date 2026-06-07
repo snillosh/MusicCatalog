@@ -1,5 +1,4 @@
 import {Card, Center, Container, Image, Stack, Text, Title} from "@mantine/core";
-import albumCover from '../assets/ImageCompressed.png';
 import type {AlbumListItem} from "../api/albums.ts";
 
 type AlbumDetailsProps = {
@@ -7,12 +6,10 @@ type AlbumDetailsProps = {
     selectedAlbumId: string | undefined;
 }
 
-export function AlbumDetails({albums, selectedAlbumId} : AlbumDetailsProps)
-{
+export function AlbumDetails({albums, selectedAlbumId}: AlbumDetailsProps) {
     const album = albums.find(a => a.id === selectedAlbumId);
 
-    if (album === undefined)
-    {
+    if (album === undefined) {
         return <Container p={"lg"}>
             <Center>
                 <Text>Please select an album to begin.</Text>
@@ -25,7 +22,7 @@ export function AlbumDetails({albums, selectedAlbumId} : AlbumDetailsProps)
             <Center m="lg">
                 <Stack align={"center"} gap={3}>
                     <Image
-                        src={albumCover}
+                        src={`https://coverartarchive.org/release/${album.musicBrainzReleaseId}/front-250`}
                         w={400}
                         h={400}
                         radius="sm"/>

@@ -57,7 +57,7 @@ public class AlbumRepositoryTests
         await _db.Artists.AddAsync(artist);
         await _db.SaveChangesAsync();
 
-        var album = new Album(artist.Id, "Imaginal Disk", 2024);
+        var album = new Album(artist.Id, Guid.NewGuid(), Guid.NewGuid(), "Imaginal Disk", 2024);
 
         await _repository.AddAsync(album, CancellationToken.None);
 
@@ -72,7 +72,7 @@ public class AlbumRepositoryTests
     public async Task GetByIdAsync_ReturnsAlbum()
     {
         var artist = new Artist("Magdalena Bay", "US");
-        var album = new Album(artist.Id, "Imaginal Disk", 2024);
+        var album = new Album(artist.Id, Guid.NewGuid(), Guid.NewGuid(), "Imaginal Disk", 2024);
 
         await _db.Artists.AddAsync(artist);
         await _db.Albums.AddAsync(album);
@@ -89,7 +89,7 @@ public class AlbumRepositoryTests
     public async Task GetByIdAsync_ReturnsUntrackedEntity()
     {
         var artist = new Artist("Magdalena Bay", "US");
-        var album = new Album(artist.Id, "Imaginal Disk", 2024);
+        var album = new Album(artist.Id, Guid.NewGuid(), Guid.NewGuid(), "Imaginal Disk", 2024);
 
         await _db.Artists.AddAsync(artist);
         await _db.Albums.AddAsync(album);
@@ -112,7 +112,7 @@ public class AlbumRepositoryTests
     public async Task GetByIdTrackedAsync_ReturnsTrackedEntity()
     {
         var artist = new Artist("Magdalena Bay", "US");
-        var album = new Album(artist.Id, "Imaginal Disk", 2024);
+        var album = new Album(artist.Id, Guid.NewGuid(), Guid.NewGuid(), "Imaginal Disk", 2024);
 
         await _db.Artists.AddAsync(artist);
         await _db.Albums.AddAsync(album);
@@ -131,7 +131,7 @@ public class AlbumRepositoryTests
     public async Task ExistsWithTitleAsync_WhenMatchingArtistAndTitleExists_ReturnsTrue()
     {
         var artist = new Artist("Magdalena Bay", "US");
-        var album = new Album(artist.Id, "Imaginal Disk", 2024);
+        var album = new Album(artist.Id, Guid.NewGuid(), Guid.NewGuid(), "Imaginal Disk", 2024);
 
         await _db.Artists.AddAsync(artist);
         await _db.Albums.AddAsync(album);
@@ -151,7 +151,7 @@ public class AlbumRepositoryTests
         var artist1 = new Artist("Magdalena Bay", "US");
         var artist2 = new Artist("Cocteau Twins", "UK");
 
-        var album = new Album(artist1.Id, "Imaginal Disk", 2024);
+        var album = new Album(artist1.Id, Guid.NewGuid(), Guid.NewGuid(), "Imaginal Disk", 2024);
 
         await _db.Artists.AddRangeAsync(artist1, artist2);
         await _db.Albums.AddAsync(album);
@@ -169,7 +169,7 @@ public class AlbumRepositoryTests
     public async Task DeleteAsync_RemovesAlbum()
     {
         var artist = new Artist("Magdalena Bay", "US");
-        var album = new Album(artist.Id, "Imaginal Disk", 2024);
+        var album = new Album(artist.Id, Guid.NewGuid(), Guid.NewGuid(), "Imaginal Disk", 2024);
 
         await _db.Artists.AddAsync(artist);
         await _db.Albums.AddAsync(album);
@@ -187,9 +187,9 @@ public class AlbumRepositoryTests
     {
         var artist = new Artist("Magdalena Bay", "US");
 
-        var album1 = new Album(artist.Id, "A Album", 2023);
-        var album2 = new Album(artist.Id, "B Album", 2024);
-        var album3 = new Album(artist.Id, "C Album", 2025);
+        var album1 = new Album(artist.Id, Guid.NewGuid(), Guid.NewGuid(), "A Album", 2023);
+        var album2 = new Album(artist.Id, Guid.NewGuid(), Guid.NewGuid(), "B Album", 2024);
+        var album3 = new Album(artist.Id, Guid.NewGuid(), Guid.NewGuid(), "C Album", 2025);
 
         await _db.Artists.AddAsync(artist);
         await _db.Albums.AddRangeAsync(album1, album2, album3);
@@ -213,8 +213,8 @@ public class AlbumRepositoryTests
     {
         var artist = new Artist("Magdalena Bay", "US");
 
-        var oldAlbum = new Album(artist.Id, "Mercurial World", 2021);
-        var newAlbum = new Album(artist.Id, "Imaginal Disk", 2024);
+        var oldAlbum = new Album(artist.Id, Guid.NewGuid(), Guid.NewGuid(), "Mercurial World", 2021);
+        var newAlbum = new Album(artist.Id, Guid.NewGuid(), Guid.NewGuid(), "Imaginal Disk", 2024);
 
         await _db.Artists.AddAsync(artist);
         await _db.Albums.AddRangeAsync(oldAlbum, newAlbum);

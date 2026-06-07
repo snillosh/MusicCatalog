@@ -9,6 +9,7 @@ public interface IArtistRepository
     Task<PagedResult<ArtistDto>> GetAllAsync(int page, int pageSize, CancellationToken ct);
     Task<Artist?> GetByIdAsync(Guid id, CancellationToken ct);
     Task<Artist?> GetByIdTrackedAsync(Guid id, CancellationToken ct);
+    Task<Artist?> GetByNameTrackedAsync(string artistName, CancellationToken ct);
     Task AddAsync(Artist artist, CancellationToken ct);
     Task<bool> ExistsByNameAsync(string name, CancellationToken ct);
     Task UpdateAsync(Artist artist, CancellationToken ct);

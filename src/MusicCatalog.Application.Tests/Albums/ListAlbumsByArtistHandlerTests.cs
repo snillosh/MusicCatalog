@@ -26,8 +26,8 @@ public class ListAlbumsByArtistHandlerTests
 
         var albums = new List<AlbumListItemDto>
         {
-            new(Guid.NewGuid(), Guid.NewGuid(), "Magdalena Bay", "Imaginal Disk", 2024),
-            new(Guid.NewGuid(), Guid.NewGuid(), "Magdalena Bay", "Mercurial World", 2022)
+            new(Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), "Magdalena Bay", "Imaginal Disk", 2024),
+            new(Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), "Magdalena Bay", "Mercurial World", 2022)
         };
 
         _albumRepository.GetByArtistIdAsync(

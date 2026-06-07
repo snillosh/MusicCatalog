@@ -7,10 +7,17 @@ public sealed class Album
 {
     private Album() {}
 
-    public Album(Guid artistId, string title, int? releaseYear = null)
+    public Album(
+        Guid artistId,
+        Guid musicBrainzReleaseGroupId,
+        Guid musicBrainzReleaseId,
+        string title,
+        int? releaseYear = null)
     {
         Id = Guid.NewGuid();
         ArtistId = artistId;
+        MusicBrainzReleaseGroupId = musicBrainzReleaseGroupId;
+        MusicBrainzReleaseId = musicBrainzReleaseId;
         Rename(title);
         SetReleaseYear(releaseYear);
     }
@@ -18,6 +25,10 @@ public sealed class Album
     public Guid Id { get; private set; }
 
     public Guid ArtistId { get; private set; }
+
+    public Guid MusicBrainzReleaseGroupId { get; private set; }
+
+    public Guid MusicBrainzReleaseId { get; private set; }
 
     public Artist Artist { get; private set; } = default!;
 
