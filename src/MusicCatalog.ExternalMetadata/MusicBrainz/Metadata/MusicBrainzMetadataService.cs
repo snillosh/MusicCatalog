@@ -29,6 +29,6 @@ public sealed class MusicBrainzMetadataService : IMusicMetadataService, IDisposa
 
         var releaseResults = browseResults.Results.GetMostSuitableRelease();
 
-        return releaseResults.ToAlbumImportPreview();
+        return releaseResults.ToAlbumImportPreview(releaseGroupId);
     }
 }

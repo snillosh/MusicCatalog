@@ -28,7 +28,14 @@ public sealed class ArtistAlbumsController(ISender sender) : ControllerBase
         [FromBody] CreateAlbumRequest request,
         CancellationToken ct)
     {
-        var result = await sender.Send(new CreateAlbumCommand(artistId, request.Title, request.ReleaseYear), ct);
+        var result = await sender.Send(
+        new CreateAlbumCommand(
+        artistId,
+        request.musicBrainzReleaseGroupId,
+        request.musicBrainzReleaseId,
+        request.Title,
+        request.ReleaseYear),
+        ct);
 
         if (!result.IsSuccess)
         {

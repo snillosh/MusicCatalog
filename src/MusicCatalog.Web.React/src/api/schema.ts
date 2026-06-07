@@ -769,6 +769,8 @@ export interface components {
         };
         AlbumImportPreview: {
             /** Format: uuid */
+            musicBrainzReleaseGroupId?: string;
+            /** Format: uuid */
             musicBrainzReleaseId?: string;
             title?: string | null;
             artistName?: string | null;
@@ -780,6 +782,10 @@ export interface components {
             id?: string;
             /** Format: uuid */
             artistId?: string;
+            /** Format: uuid */
+            musicBrainzReleaseGroupId?: string;
+            /** Format: uuid */
+            musicBrainzReleaseId?: string;
             artistName?: string | null;
             title?: string | null;
             /** Format: int32 */
@@ -814,6 +820,10 @@ export interface components {
             readonly totalPages?: number;
         };
         CreateAlbumRequest: {
+            /** Format: uuid */
+            musicBrainzReleaseGroupId?: string;
+            /** Format: uuid */
+            musicBrainzReleaseId?: string;
             title?: string | null;
             /** Format: int32 */
             releaseYear?: number | null;

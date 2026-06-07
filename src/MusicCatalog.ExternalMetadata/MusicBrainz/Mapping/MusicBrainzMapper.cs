@@ -19,7 +19,7 @@ internal static class MusicBrainzMapper
             .ToList();
     }
 
-    public static AlbumImportPreview? ToAlbumImportPreview(this IRelease? release)
+    public static AlbumImportPreview? ToAlbumImportPreview(this IRelease? release, Guid releaseGroupId)
     {
         if (release is null)
         {
@@ -31,6 +31,7 @@ internal static class MusicBrainzMapper
         var tracks = CreateTrackPreviews(release.Media);
 
         return new AlbumImportPreview(
+        releaseGroupId,
         release.Id,
         release.Title,
         artistName,

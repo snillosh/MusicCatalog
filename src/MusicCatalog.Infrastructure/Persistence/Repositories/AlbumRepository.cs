@@ -30,6 +30,8 @@ public sealed class AlbumRepository(MusicCatalogDbContext db) : IAlbumRepository
             .Select(a => new AlbumListItemDto(
             a.Id,
             a.ArtistId,
+            a.MusicBrainzReleaseGroupId,
+            a.MusicBrainzReleaseId,
             a.Artist.Name,
             a.Title,
             a.ReleaseYear))
@@ -90,6 +92,8 @@ public sealed class AlbumRepository(MusicCatalogDbContext db) : IAlbumRepository
             .Select(a => new AlbumListItemDto(
             a.Id,
             a.ArtistId,
+            a.MusicBrainzReleaseGroupId,
+            a.MusicBrainzReleaseId,
             a.Artist.Name,
             a.Title,
             a.ReleaseYear))

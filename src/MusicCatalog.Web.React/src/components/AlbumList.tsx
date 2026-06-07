@@ -1,5 +1,4 @@
 import {Avatar, Card, Container, Group, NavLink, Stack, Text} from "@mantine/core";
-import albumCover from '../assets/ImageCompressed.png';
 import {type AlbumListItem} from "../api/albums.ts";
 
 interface AlbumListProps {
@@ -26,7 +25,7 @@ export function AlbumList({
                             label={
                                 <Group wrap="nowrap">
                                     <Avatar
-                                        src={albumCover}
+                                        src={`https://coverartarchive.org/release/${album.musicBrainzReleaseId}/front-250`}
                                         size={48}
                                         radius="sm"
                                     />

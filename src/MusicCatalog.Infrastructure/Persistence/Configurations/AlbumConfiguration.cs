@@ -19,6 +19,10 @@ public sealed class AlbumConfiguration : IEntityTypeConfiguration<Album>
 
         builder.Property(x => x.ArtistId).IsRequired();
 
+        builder.Property(x => x.MusicBrainzReleaseGroupId).IsRequired();
+
+        builder.Property(x => x.MusicBrainzReleaseId).IsRequired();
+
         builder.HasOne<Artist>(a => a.Artist)
             .WithMany(a => a.Albums)
             .HasForeignKey(x => x.ArtistId)

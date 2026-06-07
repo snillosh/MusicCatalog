@@ -23,7 +23,12 @@ public class AlbumImportService(
 
         var releaseYear = ParseReleaseYear(selectedAlbum.ReleaseDate);
 
-        var newAlbum = new Album(artist.Id, selectedAlbum.Title, releaseYear);
+        var newAlbum = new Album(
+        artist.Id,
+        selectedAlbum.MusicBrainzReleaseGroupId,
+        selectedAlbum.MusicBrainzReleaseId,
+        selectedAlbum.Title,
+        releaseYear);
 
         await albumRepo.AddAsync(
         newAlbum,
