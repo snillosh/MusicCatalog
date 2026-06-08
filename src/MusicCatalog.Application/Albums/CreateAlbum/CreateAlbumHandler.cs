@@ -31,7 +31,7 @@ public sealed class CreateAlbumHandler(IArtistRepository artists, IAlbumReposito
         title,
         request.ReleaseYear);
 
-        await albums.AddAsync(album, ct);
+        await albums.AddAndSaveAsync(album, ct);
 
         return Result<AlbumDto>.Success(new AlbumDto(album.Id, album.ArtistId, album.Title, album.ReleaseYear));
     }

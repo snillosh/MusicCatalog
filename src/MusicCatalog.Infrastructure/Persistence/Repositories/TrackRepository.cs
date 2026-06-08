@@ -12,11 +12,12 @@ public sealed class TrackRepository(MusicCatalogDbContext db) : ITrackRepository
             .OrderBy(t => t.TrackNumber)
             .ToListAsync(ct);
 
-    public async Task AddAsync(Track track, CancellationToken ct)
+    public async Task AddAndSaveAsync(Track track, CancellationToken ct)
     {
         db.Tracks.Add(track);
         await db.SaveChangesAsync(ct);
     }
+    public void Add(Track track) => db.Tracks.Add(track);
 
     public Task<bool> ExistsTrackNumberAsync(Guid albumId, int trackNumber, CancellationToken ct) =>
         db.Tracks.AnyAsync(t => t.AlbumId == albumId && t.TrackNumber == trackNumber, ct);

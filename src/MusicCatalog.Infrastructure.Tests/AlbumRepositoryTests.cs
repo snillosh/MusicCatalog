@@ -59,7 +59,7 @@ public class AlbumRepositoryTests
 
         var album = new Album(artist.Id, Guid.NewGuid(), Guid.NewGuid(), "Imaginal Disk", 2024);
 
-        await _repository.AddAsync(album, CancellationToken.None);
+        await _repository.AddAndSaveAsync(album, CancellationToken.None);
 
         var savedAlbum = await _db.Albums.FirstOrDefaultAsync(x => x.Id == album.Id);
 

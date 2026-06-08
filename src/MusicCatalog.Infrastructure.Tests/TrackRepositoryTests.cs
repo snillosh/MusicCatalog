@@ -61,7 +61,7 @@ public class TrackRepositoryTests
         await _db.Albums.AddAsync(album);
         await _db.SaveChangesAsync();
 
-        await _repository.AddAsync(track, CancellationToken.None);
+        await _repository.AddAndSaveAsync(track, CancellationToken.None);
 
         var savedTrack = await _db.Tracks.FirstOrDefaultAsync(x => x.Id == track.Id);
 

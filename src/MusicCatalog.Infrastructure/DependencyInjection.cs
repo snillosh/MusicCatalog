@@ -9,6 +9,7 @@ using MusicCatalog.Application.Albums;
 using MusicCatalog.Application.Artists;
 using MusicCatalog.Application.Authentication;
 using MusicCatalog.Application.Genres;
+using MusicCatalog.Application.Saving;
 using MusicCatalog.Application.Tracks;
 using MusicCatalog.Infrastructure.Authentication;
 using MusicCatalog.Infrastructure.Identity;
@@ -86,6 +87,7 @@ public static class DependencyInjection
         services.AddScoped<IAlbumRepository, AlbumRepository>();
         services.AddScoped<ITrackRepository, TrackRepository>();
         services.AddScoped<IGenreRepository, GenreRepository>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         return services;
     }

@@ -12,11 +12,12 @@ public class GenreRepository(MusicCatalogDbContext db) : IGenreRepository
     public async Task<Genre?> GetByIdTrackedAsync(Guid id, CancellationToken ct) =>
         await db.Genres.FirstOrDefaultAsync(a => a.Id == id, ct);
 
-    public async Task AddAsync(Genre genre, CancellationToken ct)
+    public async Task AddAndSaveAsync(Genre genre, CancellationToken ct)
     {
         db.Genres.Add(genre);
         await db.SaveChangesAsync(ct);
     }
+    public void Add(Genre genre) => db.Genres.Add(genre);
 
     public async Task<bool> ExistsWithTitleAsync(string title, Guid? excludeId, CancellationToken ct)
     {

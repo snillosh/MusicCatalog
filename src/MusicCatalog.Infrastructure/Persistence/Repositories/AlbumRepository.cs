@@ -49,11 +49,13 @@ public sealed class AlbumRepository(MusicCatalogDbContext db) : IAlbumRepository
     public async Task<Album?> GetByIdAsync(Guid id, CancellationToken ct) =>
         await db.Albums.AsNoTracking().FirstOrDefaultAsync(a => a.Id == id, ct);
 
-    public async Task AddAsync(Album album, CancellationToken ct)
+    public async Task AddAndSaveAsync(Album album, CancellationToken ct)
     {
         db.Albums.Add(album);
         await db.SaveChangesAsync(ct);
     }
+
+    public void Add(Album album) => db.Albums.Add(album);
 
     public async Task<bool> ExistsWithTitleAsync(Guid artistId, string title, CancellationToken ct)
     {

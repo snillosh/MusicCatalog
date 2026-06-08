@@ -1,5 +1,6 @@
 using MusicCatalog.Application.Albums;
 using MusicCatalog.Application.Artists;
+using MusicCatalog.Application.Saving;
 using MusicCatalog.Application.Tracks;
 using MusicCatalog.Contracts.Albums;
 using MusicCatalog.Domain.Albums;
@@ -11,7 +12,8 @@ namespace MusicCatalog.Application.Importing;
 public class AlbumImportService(
     IArtistRepository artistRepo,
     IAlbumRepository albumRepo,
-    ITrackRepository trackRepo) : IAlbumImportService
+    ITrackRepository trackRepo,
+    IUnitOfWork unitOfWork) : IAlbumImportService
 {
     public async Task<AlbumDto> ImportAlbumAsync(
         AlbumImportPreview selectedAlbum,
@@ -30,16 +32,14 @@ public class AlbumImportService(
         selectedAlbum.Title,
         releaseYear);
 
-        await albumRepo.AddAsync(
-        newAlbum,
-        cancellationToken);
+        albumRepo.Add(newAlbum);
 
         foreach (var track in selectedAlbum.Tracks)
         {
-            await trackRepo.AddAsync(
-            new Track(newAlbum.Id, track.TrackNumber, track.Title, track.DurationSeconds),
-            cancellationToken);
+            trackRepo.Add(new Track(newAlbum.Id, track.TrackNumber, track.Title, track.DurationSeconds));
         }
+
+        await unitOfWork.SaveChangesAsync(cancellationToken);
 
         return new AlbumDto(newAlbum.Id, artist.Id, newAlbum.Title, newAlbum.ReleaseYear);
     }
@@ -59,9 +59,7 @@ public class AlbumImportService(
 
         var newArtist = new Artist(artistName, "WW");
 
-        await artistRepo.AddAsync(
-        newArtist,
-        cancellationToken);
+        artistRepo.Add(newArtist);
 
         return newArtist;
     }

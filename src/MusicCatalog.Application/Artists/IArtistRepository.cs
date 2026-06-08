@@ -10,7 +10,8 @@ public interface IArtistRepository
     Task<Artist?> GetByIdAsync(Guid id, CancellationToken ct);
     Task<Artist?> GetByIdTrackedAsync(Guid id, CancellationToken ct);
     Task<Artist?> GetByNameTrackedAsync(string artistName, CancellationToken ct);
-    Task AddAsync(Artist artist, CancellationToken ct);
+    Task AddAndSaveAsync(Artist artist, CancellationToken ct);
+    void Add(Artist artist);
     Task<bool> ExistsByNameAsync(string name, CancellationToken ct);
     Task UpdateAsync(Artist artist, CancellationToken ct);
     Task DeleteAsync(Artist artist, CancellationToken ct);

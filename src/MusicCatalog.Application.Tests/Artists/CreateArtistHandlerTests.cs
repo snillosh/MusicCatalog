@@ -34,7 +34,7 @@ public class CreateArtistHandlerTests
         result.Value.Country.Should().Be("US");
 
         await _repository.Received(1)
-            .AddAsync(
+            .AddAndSaveAsync(
             Arg.Is<Artist>(a =>
                 a.Name == "Magdalena Bay" && a.Country == "US"),
             Arg.Any<CancellationToken>());
@@ -56,6 +56,6 @@ public class CreateArtistHandlerTests
         result.Error.Message.Should().Be("An artist with the same name already exists.");
 
         await _repository.DidNotReceive()
-            .AddAsync(Arg.Any<Artist>(), Arg.Any<CancellationToken>());
+            .AddAndSaveAsync(Arg.Any<Artist>(), Arg.Any<CancellationToken>());
     }
 }

@@ -42,7 +42,7 @@ public class CreateAlbumHandlerTests
         result.Value.ReleaseYear.Should().Be(2024);
 
         await _albumRepository.Received(1)
-            .AddAsync(
+            .AddAndSaveAsync(
             Arg.Is<Album>(a =>
                 a.ArtistId == artist.Id && a.Title == "Imaginal Disk" && a.ReleaseYear == 2024),
             Arg.Any<CancellationToken>());
@@ -70,7 +70,7 @@ public class CreateAlbumHandlerTests
             .ExistsWithTitleAsync(Arg.Any<Guid>(), Arg.Any<string>(), Arg.Any<CancellationToken>());
 
         await _albumRepository.DidNotReceive()
-            .AddAsync(Arg.Any<Album>(), Arg.Any<CancellationToken>());
+            .AddAndSaveAsync(Arg.Any<Album>(), Arg.Any<CancellationToken>());
     }
 
     [Test]
@@ -94,6 +94,6 @@ public class CreateAlbumHandlerTests
         result.Error!.Message.Should().Be("That artist already has an album with that title.");
 
         await _albumRepository.DidNotReceive()
-            .AddAsync(Arg.Any<Album>(), Arg.Any<CancellationToken>());
+            .AddAndSaveAsync(Arg.Any<Album>(), Arg.Any<CancellationToken>());
     }
 }
