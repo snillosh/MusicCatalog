@@ -39,11 +39,13 @@ public class ArtistRepository(MusicCatalogDbContext db) : IArtistRepository
     public async Task<Artist?> GetByNameTrackedAsync(string artistName, CancellationToken ct) =>
         await db.Artists.FirstOrDefaultAsync(a => a.Name == artistName, ct);
 
-    public async Task AddAsync(Artist artist, CancellationToken ct)
+    public async Task AddAndSaveAsync(Artist artist, CancellationToken ct)
     {
         db.Artists.Add(artist);
         await db.SaveChangesAsync(ct);
     }
+
+    public void Add(Artist artist) => db.Artists.Add(artist);
 
     public async Task<bool> ExistsByNameAsync(string name, CancellationToken ct) =>
         await db.Artists.AnyAsync(a => a.Name.ToLower() == name.ToLower(), ct);

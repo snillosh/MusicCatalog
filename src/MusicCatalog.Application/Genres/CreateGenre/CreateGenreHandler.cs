@@ -18,7 +18,7 @@ public sealed class CreateGenreHandler(IGenreRepository repo) : IRequestHandler<
             return Result<GenreDto>.Fail("genres.duplicate", "There is already a genre with that title.");
         }
 
-        await repo.AddAsync(genre, cancellationToken);
+        await repo.AddAndSaveAsync(genre, cancellationToken);
 
         return Result<GenreDto>.Success(new GenreDto(genre.Id, genre.Title));
     }

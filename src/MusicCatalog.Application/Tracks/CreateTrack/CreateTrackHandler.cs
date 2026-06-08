@@ -28,7 +28,7 @@ public sealed class CreateTrackHandler(IAlbumRepository albums, ITrackRepository
 
         var track = new Track(request.AlbumId, request.TrackNumber, title, request.DurationSeconds);
 
-        await tracks.AddAsync(track, ct);
+        await tracks.AddAndSaveAsync(track, ct);
 
         return Result<TrackDto>.Success(
         new TrackDto(track.Id, track.AlbumId, track.TrackNumber, track.Title, track.DurationSeconds));

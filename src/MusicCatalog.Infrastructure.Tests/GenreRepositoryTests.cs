@@ -53,7 +53,7 @@ public class GenreRepositoryTests
     {
         var genre = new Genre("Dream Pop");
 
-        await _repository.AddAsync(genre, CancellationToken.None);
+        await _repository.AddAndSaveAsync(genre, CancellationToken.None);
 
         var savedGenre = await _db.Genres.FirstOrDefaultAsync(x => x.Id == genre.Id);
 

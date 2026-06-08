@@ -45,7 +45,7 @@ public class CreateTrackHandlerTests
         result.Value.DurationSeconds.Should().Be(187);
 
         await _trackRepository.Received(1)
-            .AddAsync(
+            .AddAndSaveAsync(
             Arg.Is<Track>(t =>
                 t.AlbumId == album.Id
                 && t.TrackNumber == 1
@@ -74,7 +74,7 @@ public class CreateTrackHandlerTests
             .ExistsTrackNumberAsync(Arg.Any<Guid>(), Arg.Any<int>(), Arg.Any<CancellationToken>());
 
         await _trackRepository.DidNotReceive()
-            .AddAsync(Arg.Any<Track>(), Arg.Any<CancellationToken>());
+            .AddAndSaveAsync(Arg.Any<Track>(), Arg.Any<CancellationToken>());
     }
 
     [Test]
@@ -99,6 +99,6 @@ public class CreateTrackHandlerTests
         result.Error.Message.Should().Be("That track number already exists for this album.");
 
         await _trackRepository.DidNotReceive()
-            .AddAsync(Arg.Any<Track>(), Arg.Any<CancellationToken>());
+            .AddAndSaveAsync(Arg.Any<Track>(), Arg.Any<CancellationToken>());
     }
 }

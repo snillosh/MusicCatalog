@@ -53,7 +53,7 @@ public class ArtistRepositoryTests
     {
         var artist = new Artist("Magdalena Bay", "US");
 
-        await _repository.AddAsync(artist, CancellationToken.None);
+        await _repository.AddAndSaveAsync(artist, CancellationToken.None);
 
         var savedArtist = await _db.Artists.FirstOrDefaultAsync(x => x.Id == artist.Id);
 

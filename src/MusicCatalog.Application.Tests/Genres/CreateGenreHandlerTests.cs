@@ -33,7 +33,7 @@ public class CreateGenreHandlerTests
         result.Value!.Title.Should().Be("Dream Pop");
 
         await _repository.Received(1)
-            .AddAsync(
+            .AddAndSaveAsync(
             Arg.Is<Genre>(g => g.Title == "Dream Pop"),
             Arg.Any<CancellationToken>());
     }
@@ -54,6 +54,6 @@ public class CreateGenreHandlerTests
         result.Error.Message.Should().Be("There is already a genre with that title.");
 
         await _repository.DidNotReceive()
-            .AddAsync(Arg.Any<Genre>(), Arg.Any<CancellationToken>());
+            .AddAndSaveAsync(Arg.Any<Genre>(), Arg.Any<CancellationToken>());
     }
 }

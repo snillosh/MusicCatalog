@@ -18,7 +18,7 @@ public class CreateArtistHandler(IArtistRepository repository) : IRequestHandler
 
         var artist = new Artist(name, request.Country);
 
-        await repository.AddAsync(artist, cancellationToken);
+        await repository.AddAndSaveAsync(artist, cancellationToken);
 
         return Result<ArtistDto>.Success(new ArtistDto(artist.Id, artist.Name, artist.Country));
     }
